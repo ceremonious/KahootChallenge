@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 class GameContainer extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {state: "showingAnswers", name: "ad", score: 0};
+		this.state = {state: "name", name: "ad", score: 0};
 		this.question = "alue o";
 		this.answerTime = 30000;
 		this.answers = ["worldwide", "bagool", "MC", "rahlfs"];
@@ -231,7 +231,7 @@ class Answers extends React.Component {
 
 		return (
 			<div>
-				<div className="leaderBoardHeader"><span>{this.props.question}</span></div>
+				<div className="leaderBoardHeader questionHeader"><span>{this.props.question}</span></div>
 				<div className="answerMiddle">
 					<div className="answerTimer">{this.state.secondsLeft}</div>
 					<div className="questionPicture"><img src="/test.gif"/></div>
@@ -248,7 +248,7 @@ class AnswerLoading extends React.Component {
 	render() {
 		return (
 			<div className="colorBg loadingContainer">
-				<div className="leaderBoardHeader">
+				<div className="leaderBoardHeader questionHeader">
 					<span className="hideForSmall">{this.props.question}</span>
 					<div className="headerUserInfo">
 						<p>{this.props.name}</p>
@@ -291,7 +291,7 @@ class AnswerResult extends React.Component {
 		var resultText = this.props.deltaScore != 0 ? "+ "+this.props.deltaScore : "Sooooo close.";
 		return (
 			<div className={background}>
-				<div className="leaderBoardHeader">
+				<div className="leaderBoardHeader questionHeader">
 					<span className="hideForSmall">{this.props.question}</span>
 					<div className="headerUserInfo">
 						<p>{this.props.name}</p>

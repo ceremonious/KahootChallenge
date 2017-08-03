@@ -149,6 +149,14 @@ a {
   outline: rgb(8, 8, 8) none 0px;
   text-align: center;
   box-shadow: rgba(0, 0, 0, 0.15) 0px -3px 0px 0px inset;
+  position: relative;
+}
+.questionHeader {
+  font-weight: normal;
+  font-style: normal;
+  font-size: 3em;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
 .leaderBoardButtonContainer > button {
@@ -360,6 +368,7 @@ a {
   margin-bottom: 5px;
   text-align: left;
   cursor: pointer;
+  position: relative;
 }
 .answerButton:active {
   box-shadow: none;
@@ -403,11 +412,11 @@ a {
   right: 20px;
 }
 .answerButton > div {
-  margin-top: 3.5%;
-  height: 50%;
-  padding-left: 20px;
-  width: 100%;
-  position: relative;
+  position: absolute;
+  transform: translate(-50%,-50%);
+  top: 50%;
+  left: 10%;
+  height: 60%;
 }
 .answerButton > div > div {
   position: absolute;
@@ -430,26 +439,30 @@ a {
   text-rendering: optimizeLegibility;
   border: 0px none rgb(255, 255, 255);
   font-family: 'Montserrat';
+  font-weight: bold;
   outline: rgb(255, 255, 255) none 0px;
   font-size: 36px;
-  font-weight: bold;
 }
 .loadingContainer {
     text-align: center;
 }
 .headerUserInfo {
-  width: 30%;
-  display: inline;
   position: absolute;
-  right: 20px;
-  text-align: right;
-  margin-top: -10px;
+  transform: translate(-50%,-50%);
+  top: 50%;
+  right: 0;
+  height: 50px;
+  padding-bottom: 40px;
+  margin-right: -20px;
 }
 .headerUserInfo > p {
   display: inline-block;
-  font: normal normal bold normal 18px / 47.25px 'montserrat', "helvetica neue", helvetica, arial, sans-serif;
+  font-size: 20px;
+  font-weight: bold;
+  font-family: 'montserrat', "helvetica neue", helvetica, arial, sans-serif;
   color: rgb(51, 51, 51);
   text-align: right;
+  line-height: 50px;
 }
 .headerUserInfo > div {
   display: inline-block;
@@ -462,7 +475,10 @@ a {
   background: rgb(51, 51, 51) none repeat scroll 0% 0% / auto padding-box border-box;
   border: 0px none rgb(255, 255, 255);
   border-radius: 3px 3px 3px 3px;
-  font: normal normal bold normal 16px / 30px montserrat, "helvetica neue", helvetica, arial, sans-serif;
+  font-size: 16px;
+  line-height: 32px;
+  font-weight: bold;
+  font-family: 'montserrat', "helvetica neue", helvetica, arial, sans-serif;
   margin-left: 10px;
   padding: 0px 12px;
 }
@@ -486,7 +502,10 @@ a {
   text-align: center;
   text-decoration: none solid rgb(255, 255, 255);
   text-rendering: optimizeLegibility;
-  font: italic normal bold normal 32px / normal BPreplay, sans-serif;
+  font-style: italic;
+  font-weight: bold;
+  font-size: 32px;
+  font-family: 'BPreplay', sans-serif;
   outline: rgb(255, 255, 255) none 0px;
   margin-bottom: 20px;
 }
@@ -593,6 +612,9 @@ body {
   .leaderBoardTable {
     margin-top: 120px;
   }
+  .questionHeader {
+    font-size: 1.5em;
+  }
   .answerButton {
     width: 97%;
   }
@@ -605,11 +627,16 @@ body {
   }
   .headerUserInfo {
     position: absolute;
+    padding-bottom: 0px;
+    margin-right: 0px;
   }
   .headerUserInfo > p {
     display: inline;
   }
   .headerUserInfo > div {
     display: inline;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-right: -15px;
   }
 }
