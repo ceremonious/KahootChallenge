@@ -160,32 +160,32 @@ a {
 }
 
 .leaderBoardButtonContainer > button {
-    bottom: 0px;
-    box-shadow: rgba(0, 0, 0, 0.15) 0px -3px 0px 0px inset;
-    color: rgb(255, 255, 255);
-    cursor: pointer;
-    height: 50px;
-    left: 0px;
-    min-height: 0px;
-    position: relative;
-    right: 0px;
-    text-decoration: none solid rgb(255, 255, 255);
-    top: 0px;
-    vertical-align: top;
-    width: 97.5625px;
-    column-rule-color: rgb(255, 255, 255);
-    perspective-origin: 48.7812px 25px;
-    transform-origin: 48.7812px 25px;
-    caret-color: rgb(255, 255, 255);
-    background: rgb(69, 163, 229) none repeat scroll 0% 0% / auto padding-box border-box;
-    border: 0px none rgb(255, 255, 255);
-    border-radius: 2px 2px 2px 2px;
-    font-family: "Montserrat", Helvetica, sans-serif;
-    font-weight: bold;
-    font-size: 1.5em;
-    line-height: 20px;
-    outline: rgb(255, 255, 255) none 0px;
-    padding: 15px 20px;
+  bottom: 0px;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px -3px 0px 0px inset;
+  color: rgb(255, 255, 255);
+  cursor: pointer;
+  height: 50px;
+  left: 0px;
+  min-height: 0px;
+  position: relative;
+  right: 0px;
+  text-decoration: none solid rgb(255, 255, 255);
+  top: 0px;
+  vertical-align: top;
+  width: 97.5625px;
+  column-rule-color: rgb(255, 255, 255);
+  perspective-origin: 48.7812px 25px;
+  transform-origin: 48.7812px 25px;
+  caret-color: rgb(255, 255, 255);
+  background: rgb(69, 163, 229) none repeat scroll 0% 0% / auto padding-box border-box;
+  border: 0px none rgb(255, 255, 255);
+  border-radius: 2px 2px 2px 2px;
+  font-family: "Montserrat", Helvetica, sans-serif;
+  font-weight: bold;
+  font-size: 1.5em;
+  line-height: 20px;
+  outline: rgb(255, 255, 255) none 0px;
+  padding: 15px 20px;
 }
 .leaderBoardButtonContainer > button:hover {
   background-color: #3B8BC3;
@@ -397,36 +397,31 @@ a {
 .green:hover {
   background-color: #237A0B;
 }
-
-.answerButton > div > div > p {
+.answerButton > p {
   font-family: 'Montserrat', "helvetica neue", helvetica, arial, sans-serif;
-  font-size: 28px;
+  font-size: 1.5em;
+  width: 50%;
   font-weight: bold;
-}
-.answerButton > div > img {
-  height: 100%;
-  display: inline-block;
-}
-.answerButtonCheck {
   position: absolute;
   transform: translate(-50%,-50%);
-  right: 0;
-  top: 50%;
+  top: 30%;
+  left: 45%;
+  width: 50%;
 }
-.answerButton > div {
+.answerShape {
+  height: 100%;
+  display: inline-block;
   position: absolute;
   transform: translate(-50%,-50%);
   top: 50%;
   left: 10%;
   height: 60%;
 }
-.answerButton > div > div {
+.answerButtonCheck {
   position: absolute;
+  transform: translate(-50%,-50%);
+  right: 0;
   top: 50%;
-  margin-left: 20px;
-  display: inline-block;
-  height:5em;
-  margin-top:-2.5em;
 }
 .waitingText {
   margin-top: 10%;
@@ -525,7 +520,21 @@ a {
 .resultBox.correctColor {
   background-color: #57A331;
 }
-
+.answerTimerSmall {
+  display: none;
+}
+.hidden {
+  display: none;
+}
+.winnerText {
+  text-align: center;
+  font-size: 2.5em;
+  color: white;
+  font-family: 'Montserrat', arial;
+  position: absolute;
+  width: 100%;
+  font-weight: bold;
+}
 
 
 body {
@@ -620,9 +629,19 @@ body {
   .answerButton {
     width: 97%;
   }
+  .answerButton > p {
+    font-size: 1em;
+  }
+  .answerButtonCheck {
+    width: 10%;
+  }
   .questionText {
     top: 25%;
     font-size: 1.5em;
+  }
+  .questionPicture > img {
+    width: 80%;
+    left: 10%;
   }
   .hideForSmall {
     display: none;
@@ -638,5 +657,30 @@ body {
     padding-left: 20px;
     padding-right: 20px;
     margin-right: -15px;
+  }
+  .answerResultButton {
+    float: none;
+    margin-right: 0;
+    margin-top: 5px;
+    text-align: center;
+  }
+  .answerContainer {
+    margin-top: 20px;
+    position: relative;
+  }
+  .answerTimerSmall {
+    display: inline-block;
+    position: absolute;
+    left: 0;
+    width: 50px;
+    height: 50px;
+    color: rgb(255, 255, 255);
+    text-align: center;
+    background: rgb(134, 76, 191) none repeat scroll 0% 0% / auto padding-box border-box;
+    font-family: "bpreplay", "helvetica neue", helvetica, arial, sans-serif;
+    font-size: 0.8em;
+    font-weight: bold;
+    border-radius: 100% 100% 100% 100%;
+    line-height: 50px;
   }
 }

@@ -4,10 +4,11 @@ import ReactDOM from 'react-dom';
 class GameContainer extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {state: "answerResult", name: null, score: 0};
-		this.questionInfo = {question: "asd", answerTime: null, answers: ["long answer 1 ok but still", "ong answer 1 ok but still", "ong answer 1 ok but still", "ong answer 1 ok but still"], currentQ: 1, totalQ: 2};
+		this.state = {state: "leaderBoard", name: null, score: 0};
+		this.questionInfo = {question: "asd", answerTime: 1000000, answers: ["long answer 1 ok but still", "ong answer 1 ok but still", "ong answer 1 ok but still", "ong answer 1 ok but still"], currentQ: 2, totalQ: 2};
 		this.startTime = null;
-		this.answerInfo = {deltaScore: 32, correctAnswers: [2, 3], leaderBoard: null};
+		this.timeDiff = null;
+		this.answerInfo = {deltaScore: 32, correctAnswers: [2, 3], leaderBoard: [{name: "mayhul", score: 2}, {name: "sad", score: 0}]};
 		this.nameSubmitted = this.nameSubmitted.bind(this);
 		this.nextClicked = this.nextClicked.bind(this);
 		this.answerClicked = this.answerClicked.bind(this);
@@ -65,11 +66,11 @@ class GameContainer extends React.Component {
 		var component = this;
 		component.setState({state: "answerLoading"});
 		var endTime = new Date().getTime();
-		var timeDiff = endTime - this.startTime;
+		component.timeDiff = endTime - this.startTime;
 		var xhttp = new XMLHttpRequest();
 	  xhttp.open("POST", "/answerQuestion", true);
 		xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-		xhttp.send("answer="+answer+"&time="+timeDiff);
+		xhttp.send("answer="+answer+"&time="+component.timeDiff);
     xhttp.onreadystatechange = function() {
       	if(xhttp.readyState == 4 && xhttp.status == 200) {
 					var response = JSON.parse(xhttp.responseText);
@@ -93,7 +94,7 @@ class GameContainer extends React.Component {
 			return(<Name nameSubmitted={this.nameSubmitted}></Name>);
 		}
 		else if(this.state.state == "leaderBoard") {
-			return(<LeaderBoard leaderBoard={this.answerInfo.leaderBoard} nextClicked={this.nextClicked}></LeaderBoard>);
+			return(<LeaderBoard leaderBoard={this.answerInfo.leaderBoard} gameOver={this.questionInfo.currentQ == this.questionInfo.totalQ} nextClicked={this.nextClicked}></LeaderBoard>);
 		}
 		else if(this.state.state == "showingQuestion") {
 			return(<Question questionInfo={this.questionInfo}></Question>);
@@ -102,7 +103,7 @@ class GameContainer extends React.Component {
 			return(<Answers questionInfo={this.questionInfo} answerClicked={this.answerClicked}></Answers>);
 		}
 		else if(this.state.state == "answerLoading") {
-			return(<AnswerLoading question={this.answerInfo.question} name={this.state.name} score={this.state.score}></AnswerLoading>);
+			return(<AnswerLoading timeDiff={this.timeDiff}></AnswerLoading>);
 		}
 		else if(this.state.state == "answerResult") {
 			return(<AnswerResult moveToLeaderBoard={this.moveToLeaderBoard} answerInfo={this.answerInfo} questionInfo={this.questionInfo} name={this.state.name} score={this.state.score}></AnswerResult>);
@@ -160,10 +161,19 @@ class Name extends React.Component {
 class LeaderBoard extends React.Component {
 	render() {
 		var leaderBoard = this.props.leaderBoard;
+		var nextHidden = this.props.gameOver ? " hidden" : "";
+		var winnerText = "";
+		if(this.props.gameOver) {
+			if(leaderBoard[0].score == leaderBoard[1].score)
+				winnerText = "It's a tie!";
+			else
+				winnerText = leaderBoard[0].name + " wins!";
+		}
 		return (
 			<div className="orange">
 				<div className="leaderBoardHeader"><span>Scoreboard</span></div>
-				<div className="leaderBoardButtonContainer"><button type="button" onClick={() => this.props.nextClicked()}>Next</button></div>
+				<div className={"leaderBoardButtonContainer" + nextHidden}><button type="button" onClick={() => this.props.nextClicked()}>Next</button></div>
+				<p className="winnerText">{winnerText}</p>
 				<table className="leaderBoardTable">
 					<tbody>
 						<tr className="firstPlace"><td className="nameLeaderBoard">{leaderBoard[0].name}</td><td>{leaderBoard[0].score}</td></tr>
@@ -232,19 +242,20 @@ class Answers extends React.Component {
 			var shapes = ["/triangle.png", "/diamond.png", "/circle.png", "/square.png"];
 			return (
 				<div className={"answerButton " + colors[index]} key={index} onClick={() => {clearInterval(component.timer); component.props.answerClicked(index);}}>
-					<div>
-						<img src={shapes[index]} />
-						<div><p>{answer}</p></div>
-					</div>
+					<img className="answerShape" src={shapes[index]} />
+					<p>{answer}</p>
 				</div>
 			);
 		});
 
 		return (
 			<div>
-				<div className="leaderBoardHeader questionHeader"><span>{this.props.questionInfo.question}</span></div>
+				<div className="leaderBoardHeader questionHeader">
+					<div className="answerTimerSmall">{this.state.secondsLeft}</div>
+					<span>{this.props.questionInfo.question}</span>
+				</div>
 				<div className="answerMiddle">
-					<div className="answerTimer">{this.state.secondsLeft}</div>
+					<div className="answerTimer hideForSmall">{this.state.secondsLeft}</div>
 					<div className="questionPicture"><img src="/test.gif"/></div>
 				</div>
 				<div className="answerContainer">
@@ -257,17 +268,22 @@ class Answers extends React.Component {
 
 class AnswerLoading extends React.Component {
 	render() {
+		var phrase = null;
+		var phrases = ["Secret classroom superpowers?", "Pure genius or guesswork?", "Just snuck in?", "Lightning smart?", "Genius machine?"];
+		if(this.props.timeDiff < 1000 && Math.random() < 0.6) {
+			phrase = "Were you tooooooo fast?";
+		}
+		else {
+			phrase = phrases[Math.floor(Math.random()*phrases.length)];
+		}
 		return (
 			<div className="colorBg loadingContainer">
-				<div className="leaderBoardHeader questionHeader">
-					<span className="hideForSmall">{this.props.question}</span>
-				</div>
 				<div className="waitingText">
 					<div className="spinner">
 						<div className="double-bounce1"></div>
 						<div className="double-bounce2"></div>
 					</div>
-					<h1>Were you tooooooo fast?</h1>
+					<h1>{phrase}</h1>
 				</div>
 			</div>
 		);
@@ -284,11 +300,9 @@ class AnswerResult extends React.Component {
 			var checkMark = component.props.answerInfo.correctAnswers.includes(index) ? "/correct.png" : "";
 			return (
 				<div className={"answerButton " + colors[index] + " " + opacity} key={index}>
-					<div>
-						<img src={shapes[index]} />
-						<div><p>{answer}</p></div>
-					</div>
-					<img className="answerButtonCheck" src={checkMark} />
+						<img className={"answerShape" + " " + opacity} src={shapes[index]} />
+						<p className={opacity}>{answer}</p>
+						<img className={"answerButtonCheck" + " " + opacity} src={checkMark} />
 				</div>
 			);
 		});
@@ -302,7 +316,7 @@ class AnswerResult extends React.Component {
 				<div className="leaderBoardHeader questionHeader">
 					<span className="hideForSmall">{this.props.questionInfo.question}</span>
 				</div>
-				<div className="leaderBoardButtonContainer"><button type="button" onClick={() => this.props.moveToLeaderBoard()}>Next</button></div>
+				<div className="leaderBoardButtonContainer answerResultButton"><button type="button" onClick={() => this.props.moveToLeaderBoard()}>Next</button></div>
 				<div className="resultMiddle">
 					<div className="resultText">{text}</div>
 					<img src={resultImage} />
