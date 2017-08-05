@@ -449,11 +449,9 @@ a {
 .headerUserInfo {
   position: absolute;
   transform: translate(-50%,-50%);
+  left: 5%;
+  display: inline;
   top: 50%;
-  right: 0;
-  height: 50px;
-  padding-bottom: 40px;
-  margin-right: -20px;
 }
 .headerUserInfo > p {
   display: inline-block;
@@ -626,9 +624,7 @@ body {
     display: none;
   }
   .headerUserInfo {
-    position: absolute;
-    padding-bottom: 0px;
-    margin-right: 0px;
+    left: 15%
   }
   .headerUserInfo > p {
     display: inline;

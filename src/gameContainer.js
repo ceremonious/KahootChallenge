@@ -4,14 +4,10 @@ import ReactDOM from 'react-dom';
 class GameContainer extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {state: "name", name: "ad", score: 0};
-		this.question = "alue o";
-		this.answerTime = 30000;
-		this.answers = ["worldwide", "bagool", "MC", "rahlfs"];
+		this.state = {state: "name", name: null, score: 0};
+		this.questionInfo = {question: null, answerTime: null, answers: null, currentQ: null, totalQ: null};
 		this.startTime = null;
-		this.deltaScore = 10;
-		this.correctAnswers = [1];
-		this.leaderBoard = [{name: "mayhul", score:0}, {name: "asd", score:0}];
+		this.answerInfo = {deltaScore: null, correctAnswers: null, leaderBoard: null};
 		this.nameSubmitted = this.nameSubmitted.bind(this);
 		this.nextClicked = this.nextClicked.bind(this);
 		this.answerClicked = this.answerClicked.bind(this);
@@ -38,8 +34,11 @@ class GameContainer extends React.Component {
 		xhttp.onreadystatechange = function() {
 				if(xhttp.readyState == 4 && xhttp.status == 200) {
 					var response = JSON.parse(xhttp.responseText);
-					component.leaderBoard = response.leaderBoard;
+					component.answerInfo.leaderBoard = response.leaderBoard;
 					component.setState({state: "leaderBoard"});
+				}
+				if(xhttp.readyState == 4 && xhttp.status == 400) {
+					component.setState({state: "invalidGame"});
 				}
 		};
 	}
@@ -53,9 +52,7 @@ class GameContainer extends React.Component {
     xhttp.onreadystatechange = function() {
       	if(xhttp.readyState == 4 && xhttp.status == 200) {
 					var response = JSON.parse(xhttp.responseText);
-					component.question = response.question;
-					component.answers = response.answers;
-					component.answerTime = response.answerTime;
+					component.questionInfo = response;
       		component.setState({state: "showingQuestion"});
 					setTimeout(function() {
 						component.setState({state: "showingAnswers"});
@@ -76,9 +73,7 @@ class GameContainer extends React.Component {
     xhttp.onreadystatechange = function() {
       	if(xhttp.readyState == 4 && xhttp.status == 200) {
 					var response = JSON.parse(xhttp.responseText);
-					component.deltaScore = response.deltaScore;
-					component.leaderBoard = response.leaderBoard;
-					component.correctAnswers = response.correctAnswers;
+					component.answerInfo = response;
       		component.setState({state: "answerResult", score: component.state.score + response.deltaScore});
       	}
   	};
@@ -91,23 +86,26 @@ class GameContainer extends React.Component {
 		if(this.state.state == "showingLink") {
 			return(<Link></Link>);
 		}
+		else if(this.state.state == "invalidGame") {
+			return(<InvalidGame></InvalidGame>);
+		}
 		else if(this.state.state == "name") {
 			return(<Name nameSubmitted={this.nameSubmitted}></Name>);
 		}
 		else if(this.state.state == "leaderBoard") {
-			return(<LeaderBoard leaderBoard={this.leaderBoard} nextClicked={this.nextClicked}></LeaderBoard>);
+			return(<LeaderBoard leaderBoard={this.answerInfo.leaderBoard} nextClicked={this.nextClicked}></LeaderBoard>);
 		}
 		else if(this.state.state == "showingQuestion") {
-			return(<Question question={this.question}></Question>);
+			return(<Question questionInfo={this.questionInfo}></Question>);
 		}
 		else if(this.state.state == "showingAnswers") {
-			return(<Answers answerTime={this.answerTime} question={this.question} answers={this.answers} answerClicked={this.answerClicked}></Answers>);
+			return(<Answers questionInfo={this.questionInfo} answerClicked={this.answerClicked}></Answers>);
 		}
 		else if(this.state.state == "answerLoading") {
-			return(<AnswerLoading question={this.question} name={this.state.name} score={this.state.score}></AnswerLoading>);
+			return(<AnswerLoading question={this.answerInfo.question} name={this.state.name} score={this.state.score}></AnswerLoading>);
 		}
 		else if(this.state.state == "answerResult") {
-			return(<AnswerResult moveToLeaderBoard={this.moveToLeaderBoard} correctAnswers={this.correctAnswers} deltaScore={this.deltaScore} question={this.question} answers={this.answers} name={this.state.name} score={this.state.score}></AnswerResult>);
+			return(<AnswerResult moveToLeaderBoard={this.moveToLeaderBoard} answerInfo={this.answerInfo} questionInfo={this.questionInfo} name={this.state.name} score={this.state.score}></AnswerResult>);
 		}
 		else if(this.state.state == "waitingForLoad") {
 			return(<div>Loading</div>);
@@ -126,6 +124,19 @@ class Link extends React.Component {
 						<div><span>Kahoot!</span></div>
 						<p>Share this link with a friend:<br/>{link}</p>
 						<button type="button" onClick={() => copyToClipboard(link)}>Copy Link</button>
+				</div>
+			</div>
+		);
+	}
+}
+
+class InvalidGame extends React.Component {
+	render() {
+		return (
+			<div className="colorBg">
+				<div className="centerBlock">
+						<div><span>Kahoot!</span></div>
+						<p>Sorry! This game does not exist. Double check your link.</p>
 				</div>
 			</div>
 		);
@@ -169,10 +180,10 @@ class Question extends React.Component {
 		return (
 			<div>
 				<div className="leaderBoardHeader">
-					<span><span className="hideForSmall">Question </span>1 of 29</span>
+					<span><span className="hideForSmall">Question </span>{this.props.questionInfo.currentQ} of {this.props.questionInfo.totalQ}</span>
 				</div>
 				<div className="questionTimer"><div id="questionTimerPurple"></div></div>
-				<div className="questionText">{this.props.question}</div>
+				<div className="questionText">{this.props.questionInfo.question}</div>
 				<div className="questionFooter">Win up to 1,000 points!</div>
 			</div>
 		);
@@ -200,7 +211,7 @@ class Question extends React.Component {
 class Answers extends React.Component {
 	constructor(props) {
 		super(props);
-		var seconds = this.props.answerTime/1000;
+		var seconds = this.props.questionInfo.answerTime/1000;
 		this.state = {secondsLeft: seconds};
 		var component = this;
 		this.timer = setInterval(function() {
@@ -216,7 +227,7 @@ class Answers extends React.Component {
 
 	render() {
 		var component = this;
-		var answers = this.props.answers.map(function(answer, index) {
+		var answers = this.props.questionInfo.answers.map(function(answer, index) {
 			var colors = ["red", "blue", "yellow", "green"];
 			var shapes = ["/triangle.png", "/diamond.png", "/circle.png", "/square.png"];
 			return (
@@ -231,7 +242,7 @@ class Answers extends React.Component {
 
 		return (
 			<div>
-				<div className="leaderBoardHeader questionHeader"><span>{this.props.question}</span></div>
+				<div className="leaderBoardHeader questionHeader"><span>{this.props.questionInfo.question}</span></div>
 				<div className="answerMiddle">
 					<div className="answerTimer">{this.state.secondsLeft}</div>
 					<div className="questionPicture"><img src="/test.gif"/></div>
@@ -250,10 +261,6 @@ class AnswerLoading extends React.Component {
 			<div className="colorBg loadingContainer">
 				<div className="leaderBoardHeader questionHeader">
 					<span className="hideForSmall">{this.props.question}</span>
-					<div className="headerUserInfo">
-						<p>{this.props.name}</p>
-						<div>{this.props.score}</div>
-					</div>
 				</div>
 				<div className="waitingText">
 					<div className="spinner">
@@ -270,11 +277,11 @@ class AnswerLoading extends React.Component {
 class AnswerResult extends React.Component {
 	render() {
 		var component = this;
-		var answers = this.props.answers.map(function(answer, index) {
+		var answers = this.props.questionInfo.answers.map(function(answer, index) {
 			var colors = ["red", "blue", "yellow", "green"];
 			var shapes = ["/triangle.png", "/diamond.png", "/circle.png", "/square.png"];
-			var opacity = component.props.correctAnswers.includes(index) ? "" : "faded";
-			var checkMark = component.props.correctAnswers.includes(index) ? "/correct.png" : "";
+			var opacity = component.props.answerInfo.correctAnswers.includes(index) ? "" : "faded";
+			var checkMark = component.props.answerInfo.correctAnswers.includes(index) ? "/correct.png" : "";
 			return (
 				<div className={"answerButton " + colors[index] + " " + opacity} key={index}>
 					<div>
@@ -285,18 +292,15 @@ class AnswerResult extends React.Component {
 				</div>
 			);
 		});
-		var background = this.props.deltaScore != 0 ? "correctColor" : "incorrectColor";
-		var text = this.props.deltaScore != 0 ? "Correct" : "Incorrect";
-		var resultImage = this.props.deltaScore != 0 ? "/correct.png" : "/wrong.png";
-		var resultText = this.props.deltaScore != 0 ? "+ "+this.props.deltaScore : "Sooooo close.";
+		var deltaScore = this.props.answerInfo.deltaScore;
+		var background = deltaScore != 0 ? "correctColor" : "incorrectColor";
+		var text = deltaScore != 0 ? "Correct" : "Incorrect";
+		var resultImage = deltaScore != 0 ? "/correct.png" : "/wrong.png";
+		var resultText = deltaScore != 0 ? "+ "+deltaScore : "Sooooo close.";
 		return (
 			<div className={background}>
 				<div className="leaderBoardHeader questionHeader">
-					<span className="hideForSmall">{this.props.question}</span>
-					<div className="headerUserInfo">
-						<p>{this.props.name}</p>
-						<div>{this.props.score}</div>
-					</div>
+					<span className="hideForSmall">{this.props.questionInfo.question}</span>
 				</div>
 				<div className="leaderBoardButtonContainer"><button type="button" onClick={() => this.props.moveToLeaderBoard()}>Next</button></div>
 				<div className="resultMiddle">
