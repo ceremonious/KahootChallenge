@@ -4,10 +4,10 @@ import ReactDOM from 'react-dom';
 class GameContainer extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {state: "name", name: null, score: 0};
-		this.questionInfo = {question: null, answerTime: null, answers: null, currentQ: null, totalQ: null};
+		this.state = {state: "answerResult", name: null, score: 0};
+		this.questionInfo = {question: "asd", answerTime: null, answers: ["long answer 1 ok but still", "ong answer 1 ok but still", "ong answer 1 ok but still", "ong answer 1 ok but still"], currentQ: 1, totalQ: 2};
 		this.startTime = null;
-		this.answerInfo = {deltaScore: null, correctAnswers: null, leaderBoard: null};
+		this.answerInfo = {deltaScore: 32, correctAnswers: [2, 3], leaderBoard: null};
 		this.nameSubmitted = this.nameSubmitted.bind(this);
 		this.nextClicked = this.nextClicked.bind(this);
 		this.answerClicked = this.answerClicked.bind(this);
@@ -287,8 +287,8 @@ class AnswerResult extends React.Component {
 					<div>
 						<img src={shapes[index]} />
 						<div><p>{answer}</p></div>
-						<img className="answerButtonCheck" src={checkMark} />
 					</div>
+					<img className="answerButtonCheck" src={checkMark} />
 				</div>
 			);
 		});

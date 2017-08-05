@@ -111,7 +111,6 @@ function getQuestionCount(kahootID, callback) {
 	kahoots.find(query).toArray(function (err, result) {
 		if (err) throw err;
 		console.log(kahootID);
-		console.log(result);
 		callback(result[0].questions.length);
 	});
 }
@@ -135,7 +134,9 @@ function evaluateAnswer(kahootID, currentQ, answer, time, callback) {
 		var choices = result[0].questions[currentQ - 1].choices;
 		for(var i = 0; i < choices.length; i++)
 			if(choices[i].correct) correctAnswers.push(i);
-		var correct = answer == null ? false : choices[answer].correct;
+    var correct = false;
+    if(answer != null && answer != "null")
+      correct = choices[answer].correct;
 		if(correct) {
 			var totalTime = result[0].questions[currentQ - 1].time;
 			if(time < 500) {
