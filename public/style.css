@@ -88,6 +88,9 @@
   font-family: 'Montserrat', 'helvetica neue', 'helvetica', 'arial', sans-serif;
   font-weight: bold;
 }
+.centerBlock > input:focus {
+  border: 2px solid black;
+}
 .centerBlock > button {
     background-position: 0px 50%;
     bottom: 0px;
@@ -535,6 +538,9 @@ a {
   width: 100%;
   font-weight: bold;
 }
+.centerBlock > button:active {
+  border: 2px solid white;
+}
 
 
 body {
@@ -682,5 +688,8 @@ body {
     font-weight: bold;
     border-radius: 100% 100% 100% 100%;
     line-height: 50px;
+  }
+  .questionHeaderText {
+    margin-left: 50px;
   }
 }

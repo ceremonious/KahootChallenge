@@ -121,7 +121,7 @@ function getQuestion(kahootID, qNum, totalQ, callback) {
 		if (err) throw err;
 		var qInfo = result[0].questions[qNum - 1];
 		var answers = qInfo.choices.map((ans) => ans.answer);
-		callback({question: qInfo.question, answerTime: qInfo.time, answers: answers, currentQ: qNum, totalQ: totalQ});
+		callback({question: qInfo.question, answerTime: qInfo.time, answers: answers, currentQ: qNum, totalQ: totalQ, image: qInfo.image});
 	});
 	//callback({question: "What is a cheeta", answerTime: 30000, answers: ["Yes", "No", "Maybe", "Undecided"]});
 }

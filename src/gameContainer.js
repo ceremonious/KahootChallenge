@@ -4,8 +4,8 @@ import ReactDOM from 'react-dom';
 class GameContainer extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {state: "leaderBoard", name: null, score: 0};
-		this.questionInfo = {question: "asd", answerTime: 1000000, answers: ["long answer 1 ok but still", "ong answer 1 ok but still", "ong answer 1 ok but still", "ong answer 1 ok but still"], currentQ: 2, totalQ: 2};
+		this.state = {state: "name", name: null, score: 0};
+		this.questionInfo = {image: null, question: "what is 2 +2?", answerTime: 1000000, answers: ["long answer 1 ok but still", "ong answer 1 ok but still", "ong answer 1 ok but still", "ong answer 1 ok but still"], currentQ: 0, totalQ: 2};
 		this.startTime = null;
 		this.timeDiff = null;
 		this.answerInfo = {deltaScore: 32, correctAnswers: [2, 3], leaderBoard: [{name: "mayhul", score: 2}, {name: "sad", score: 0}]};
@@ -124,7 +124,9 @@ class Link extends React.Component {
 				<div className="centerBlock">
 						<div><span>Kahoot!</span></div>
 						<p>Share this link with a friend:<br/>{link}</p>
-						<button type="button" onClick={() => copyToClipboard(link)}>Copy Link</button>
+						<button type="button" onClick={() => copyToClipboard(link)}>
+							Copy Link
+						</button>
 				</div>
 			</div>
 		);
@@ -247,16 +249,18 @@ class Answers extends React.Component {
 				</div>
 			);
 		});
+		var image = this.props.questionInfo.image ? this.props.questionInfo.image : "/test.gif";
+		var hideImage = this.props.questionInfo.image ? "" : "hideForSmall";
 
 		return (
 			<div>
 				<div className="leaderBoardHeader questionHeader">
 					<div className="answerTimerSmall">{this.state.secondsLeft}</div>
-					<span>{this.props.questionInfo.question}</span>
+					<div className="questionHeaderText"><span>{this.props.questionInfo.question}</span></div>
 				</div>
-				<div className="answerMiddle">
+				<div className={"answerMiddle " + hideImage}>
 					<div className="answerTimer hideForSmall">{this.state.secondsLeft}</div>
-					<div className="questionPicture"><img src="/test.gif"/></div>
+					<div className="questionPicture"><img src={image}/></div>
 				</div>
 				<div className="answerContainer">
 					{answers}
@@ -314,7 +318,7 @@ class AnswerResult extends React.Component {
 		return (
 			<div className={background}>
 				<div className="leaderBoardHeader questionHeader">
-					<span className="hideForSmall">{this.props.questionInfo.question}</span>
+					<span>{this.props.questionInfo.question}</span>
 				</div>
 				<div className="leaderBoardButtonContainer answerResultButton"><button type="button" onClick={() => this.props.moveToLeaderBoard()}>Next</button></div>
 				<div className="resultMiddle">
