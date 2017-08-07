@@ -5,10 +5,10 @@ class GameContainer extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {state: "name", name: null, score: 0};
-		this.questionInfo = {image: null, question: "what is 2 +2?", answerTime: 1000000, answers: ["long answer 1 ok but still", "ong answer 1 ok but still", "ong answer 1 ok but still", "ong answer 1 ok but still"], currentQ: 0, totalQ: 2};
+		this.questionInfo = {image: null, question: "null", answerTime: null, answers: null, currentQ: 0, totalQ: null};
 		this.startTime = null;
 		this.timeDiff = null;
-		this.answerInfo = {deltaScore: 32, correctAnswers: [2, 3], leaderBoard: [{name: "mayhul", score: 2}, {name: "sad", score: 0}]};
+		this.answerInfo = {deltaScore: null, correctAnswers: null, leaderBoard: null};
 		this.nameSubmitted = this.nameSubmitted.bind(this);
 		this.nextClicked = this.nextClicked.bind(this);
 		this.answerClicked = this.answerClicked.bind(this);
