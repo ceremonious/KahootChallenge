@@ -13,7 +13,7 @@ MongoClient.connect('mongodb://localhost:27017/KahootChallenge', function(err,da
     if (err) throw err;
     kahoots = database.collection("Kahoots");
 })
-const PORT=8080;
+const PORT=80;
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended: true}));
