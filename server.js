@@ -4,6 +4,7 @@ var path = require('path');
 var HashMap = require('hashmap');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var crypto = require("crypto");
 var Player = require('./player.js');
 var MongoClient = require('mongodb').MongoClient;
 var app = express();
@@ -154,7 +155,7 @@ function evaluateAnswer(kahootID, currentQ, answer, time, callback) {
 }
 
 function generateRandomHash() {
-	return Math.random().toString(36).slice(2);
+  return crypto.randomBytes(3).toString('hex');
 }
 
 app.listen(PORT, function(){
