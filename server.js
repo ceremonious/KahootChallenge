@@ -24,16 +24,20 @@ var waitingForJoin = new HashMap();
 var games = new HashMap();
 
 app.get('/play/:kahootID', function(req, res) {
-	var kahootID = req.params.kahootID;
 	var user = generateRandomHash();
 	res.cookie("playerID", user);
 	res.sendFile('game.html', {root : __dirname});
 });
 
 app.get('/play/:kahootID/:otherUserCookie', function(req, res) {
-	var user = generateRandomHash();
-	res.cookie("playerID", user);
-	res.sendFile('game.html', {root : __dirname});
+  if(req.cookies.playerID == req.params.otherUserCookie) {
+    res.send("Send the link to a friend.");
+  }
+  else {
+    var user = generateRandomHash();
+    res.cookie("playerID", user);
+    res.sendFile('game.html', {root : __dirname});
+  }
 });
 
 app.post('/waitingForJoin', function(req, res) {
