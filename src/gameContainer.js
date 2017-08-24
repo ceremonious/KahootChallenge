@@ -33,6 +33,7 @@ class GameContainer extends React.Component {
 			xhttp.send("name="+name+"&kahootID="+info[2]+"&otherUser="+info[3]);
 			component.setState({state: "waitingForLoad", name: name});
 		}
+		component.setTimeout(xhttp, 7200000);
 		xhttp.onreadystatechange = function() {
 				if(xhttp.readyState == 4 && xhttp.status == 200) {
 					var response = JSON.parse(xhttp.responseText);
@@ -51,6 +52,7 @@ class GameContainer extends React.Component {
 	  xhttp.open("POST", "/nextQuestion", true);
 		xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 		xhttp.send();
+		component.setTimeout(xhttp, 900000);
     xhttp.onreadystatechange = function() {
       	if(xhttp.readyState == 4 && xhttp.status == 200) {
 					var response = JSON.parse(xhttp.responseText);
@@ -73,6 +75,7 @@ class GameContainer extends React.Component {
 	  xhttp.open("POST", "/answerQuestion", true);
 		xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 		xhttp.send("answer="+answer+"&time="+component.timeDiff);
+		component.setTimeout(xhttp, 900000);
     xhttp.onreadystatechange = function() {
       	if(xhttp.readyState == 4 && xhttp.status == 200) {
 					var response = JSON.parse(xhttp.responseText);
@@ -83,6 +86,10 @@ class GameContainer extends React.Component {
 	}
 	moveToLeaderBoard() {
 		this.setState({state: "leaderBoard"});
+	}
+	setTimeout(xhttp, amount) {
+		xhttp.timeout = amount;
+		xhttp.ontimeout = () => this.setState({state: "timeout"});
 	}
 
 	render() {
@@ -112,6 +119,9 @@ class GameContainer extends React.Component {
 		}
 		else if(this.state.state == "waitingForLoad") {
 			return(<div>Loading</div>);
+		}
+		else if(this.state.state == "timeout") {
+			return(<div>Time out</div>);
 		}
  	}
 }

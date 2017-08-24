@@ -13,15 +13,6 @@ var kahoots = null;
 MongoClient.connect('mongodb://localhost:27017/KahootChallenge', function(err,database) {
     if (err) throw err;
     kahoots = database.collection("Kahoots");
-
-    kahoots.find().toArray(function (err, result) {
-      if (err) throw err;
-      result.forEach(function(kahoot) {
-        kahoot.questions.forEach(function(question) {
-          console.log(question.question);
-        });
-      });
-    });
 })
 const PORT=8080;
 app.use(express.static(path.join(__dirname, 'public')));

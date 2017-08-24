@@ -9784,6 +9784,7 @@ class GameContainer extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Compon
 			xhttp.send("name=" + name + "&kahootID=" + info[2] + "&otherUser=" + info[3]);
 			component.setState({ state: "waitingForLoad", name: name });
 		}
+		component.setTimeout(xhttp);
 		xhttp.onreadystatechange = function () {
 			if (xhttp.readyState == 4 && xhttp.status == 200) {
 				var response = JSON.parse(xhttp.responseText);
@@ -9802,6 +9803,7 @@ class GameContainer extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Compon
 		xhttp.open("POST", "/nextQuestion", true);
 		xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 		xhttp.send();
+		component.setTimeout(xhttp);
 		xhttp.onreadystatechange = function () {
 			if (xhttp.readyState == 4 && xhttp.status == 200) {
 				var response = JSON.parse(xhttp.responseText);
@@ -9824,6 +9826,7 @@ class GameContainer extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Compon
 		xhttp.open("POST", "/answerQuestion", true);
 		xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 		xhttp.send("answer=" + answer + "&time=" + component.timeDiff);
+		component.setTimeout(xhttp);
 		xhttp.onreadystatechange = function () {
 			if (xhttp.readyState == 4 && xhttp.status == 200) {
 				var response = JSON.parse(xhttp.responseText);
@@ -9834,6 +9837,10 @@ class GameContainer extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Compon
 	}
 	moveToLeaderBoard() {
 		this.setState({ state: "leaderBoard" });
+	}
+	setTimeout(xhttp) {
+		xhttp.timeout = 30000;
+		xhttp.ontimeout = () => this.setState({ state: "timeout" });
 	}
 
 	render() {
@@ -9858,6 +9865,12 @@ class GameContainer extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Compon
 				'div',
 				null,
 				'Loading'
+			);
+		} else if (this.state.state == "timeout") {
+			return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+				'div',
+				null,
+				'Time out'
 			);
 		}
 	}
