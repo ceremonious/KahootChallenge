@@ -13,6 +13,15 @@ var kahoots = null;
 MongoClient.connect('mongodb://localhost:27017/KahootChallenge', function(err,database) {
     if (err) throw err;
     kahoots = database.collection("Kahoots");
+
+    kahoots.find().toArray(function (err, result) {
+      if (err) throw err;
+      result.forEach(function(kahoot) {
+        kahoot.questions.forEach(function(question) {
+          console.log(question.question);
+        });
+      });
+    });
 })
 const PORT=8080;
 app.use(express.static(path.join(__dirname, 'public')));
@@ -87,27 +96,27 @@ app.post('/answerQuestion', function(req, res) {
 	var game = games.get(user);
 	var player = game.players[0].ID == user ? game.players[0] : game.players[1];
 	evaluateAnswer(game.kahootID, game.currentQ, answer, time, function(deltaScore, correctAnswers) {
-		player.changeScore(deltaScore);
+		player.changeScore(deltaScore, answer);
 		player.res = res;
 
 		if(game.waitingPlayer == null) {
 			game.waitingPlayer = player;
 		}
 		else {
-			sendLeaderBoard(game, correctAnswers, player);
-			sendLeaderBoard(game, correctAnswers, game.waitingPlayer);
+			sendLeaderBoard(game, correctAnswers, player, game.waitingPlayer.lastAnswer);
+			sendLeaderBoard(game, correctAnswers, game.waitingPlayer, player.lastAnswer);
 			game.currentQ = game.currentQ + 1;
 			game.waitingPlayer = null;
 		}
 	});
 });
 
-function sendLeaderBoard(game, correctAnswers, player) {
+function sendLeaderBoard(game, correctAnswers, player, otherAnswer) {
 	var p = game.players;
 	var leaderBoard = [{name: p[0].name, score: p[0].score}, {name: p[1].name, score: p[1].score}];
 	if(p[1].score > p[0].score)
 		leaderBoard = [{name: p[1].name, score: p[1].score}, {name: p[0].name, score: p[0].score}];
-	var toSend = {deltaScore: player.deltaScore, leaderBoard: leaderBoard, correctAnswers: correctAnswers};
+	var toSend = {deltaScore: player.deltaScore, leaderBoard: leaderBoard, correctAnswers: correctAnswers, otherAnswer: otherAnswer};
 	player.res.send(JSON.stringify(toSend));
 }
 

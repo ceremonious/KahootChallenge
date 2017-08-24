@@ -10,6 +10,14 @@ for(var i = 0; i < obj.entities.length; i++) {
 function insertKahoot(kahoot, index) {
   delete kahoot.metadata;
   kahoot.index = index;
+  for(var i = 0; i < kahoot.questions.length; i++) {
+    var questionText = questions[i].question;
+    questionText = questionText.replace("&nbsp;", "");
+    questionText = questionText.replace("<b>", "");
+    questionText = questionText.replace("</b>", "");
+    questions[i].question = questionText;
+  }
+  });
   MongoClient.connect(url, function(err, db) {
     if (err) throw err;
     db.collection("Kahoots").count(function(err, count) {

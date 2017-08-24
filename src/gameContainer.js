@@ -6,6 +6,7 @@ class GameContainer extends React.Component {
 		super(props);
 		this.state = {state: "name", name: null, score: 0};
 		this.questionInfo = {image: null, question: "null", answerTime: null, answers: null, currentQ: 0, totalQ: null};
+		this.lastAnswer = null;
 		this.startTime = null;
 		this.timeDiff = null;
 		this.answerInfo = {deltaScore: null, correctAnswers: null, leaderBoard: null};
@@ -64,6 +65,7 @@ class GameContainer extends React.Component {
 	}
 	answerClicked(answer) {
 		var component = this;
+		component.lastAnswer = answer;
 		component.setState({state: "answerLoading"});
 		var endTime = new Date().getTime();
 		component.timeDiff = endTime - this.startTime;
@@ -106,7 +108,7 @@ class GameContainer extends React.Component {
 			return(<AnswerLoading timeDiff={this.timeDiff}></AnswerLoading>);
 		}
 		else if(this.state.state == "answerResult") {
-			return(<AnswerResult moveToLeaderBoard={this.moveToLeaderBoard} answerInfo={this.answerInfo} questionInfo={this.questionInfo} name={this.state.name} score={this.state.score}></AnswerResult>);
+			return(<AnswerResult moveToLeaderBoard={this.moveToLeaderBoard} answerInfo={this.answerInfo} questionInfo={this.questionInfo} name={this.state.name} score={this.state.score} lastAnswer={this.lastAnswer}></AnswerResult>);
 		}
 		else if(this.state.state == "waitingForLoad") {
 			return(<div>Loading</div>);
@@ -302,14 +304,17 @@ class AnswerResult extends React.Component {
 			var shapes = ["/triangle.png", "/diamond.png", "/circle.png", "/square.png"];
 			var opacity = component.props.answerInfo.correctAnswers.includes(index) ? "" : "faded";
 			var checkMark = component.props.answerInfo.correctAnswers.includes(index) ? "/correct.png" : "";
+			var yourAnswer = component.props.lastAnswer == index ? " Your answer." : "";
+			var theirAnswer = component.props.answerInfo.otherAnswer == index ? " Their answer." : "";
 			return (
 				<div className={"answerButton " + colors[index] + " " + opacity} key={index}>
 						<img className={"answerShape" + " " + opacity} src={shapes[index]} />
-						<p className={opacity}>{answer}</p>
+						<p className={opacity}>{answer}{yourAnswer}{theirAnswer}</p>
 						<img className={"answerButtonCheck" + " " + opacity} src={checkMark} />
 				</div>
 			);
 		});
+
 		var deltaScore = this.props.answerInfo.deltaScore;
 		var background = deltaScore != 0 ? "correctColor" : "incorrectColor";
 		var text = deltaScore != 0 ? "Correct" : "Incorrect";

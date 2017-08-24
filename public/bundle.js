@@ -9758,6 +9758,7 @@ class GameContainer extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Compon
 		super(props);
 		this.state = { state: "name", name: null, score: 0 };
 		this.questionInfo = { image: null, question: "null", answerTime: null, answers: null, currentQ: 0, totalQ: null };
+		this.lastAnswer = null;
 		this.startTime = null;
 		this.timeDiff = null;
 		this.answerInfo = { deltaScore: null, correctAnswers: null, leaderBoard: null };
@@ -9815,6 +9816,7 @@ class GameContainer extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Compon
 	}
 	answerClicked(answer) {
 		var component = this;
+		component.lastAnswer = answer;
 		component.setState({ state: "answerLoading" });
 		var endTime = new Date().getTime();
 		component.timeDiff = endTime - this.startTime;
@@ -9850,7 +9852,7 @@ class GameContainer extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Compon
 		} else if (this.state.state == "answerLoading") {
 			return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(AnswerLoading, { timeDiff: this.timeDiff });
 		} else if (this.state.state == "answerResult") {
-			return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(AnswerResult, { moveToLeaderBoard: this.moveToLeaderBoard, answerInfo: this.answerInfo, questionInfo: this.questionInfo, name: this.state.name, score: this.state.score });
+			return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(AnswerResult, { moveToLeaderBoard: this.moveToLeaderBoard, answerInfo: this.answerInfo, questionInfo: this.questionInfo, name: this.state.name, score: this.state.score, lastAnswer: this.lastAnswer });
 		} else if (this.state.state == "waitingForLoad") {
 			return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
 				'div',
@@ -10204,6 +10206,8 @@ class AnswerResult extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Compone
 			var shapes = ["/triangle.png", "/diamond.png", "/circle.png", "/square.png"];
 			var opacity = component.props.answerInfo.correctAnswers.includes(index) ? "" : "faded";
 			var checkMark = component.props.answerInfo.correctAnswers.includes(index) ? "/correct.png" : "";
+			var yourAnswer = component.props.lastAnswer == index ? " Your answer." : "";
+			var theirAnswer = component.props.answerInfo.otherAnswer == index ? " Their answer." : "";
 			return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
 				'div',
 				{ className: "answerButton " + colors[index] + " " + opacity, key: index },
@@ -10211,11 +10215,14 @@ class AnswerResult extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Compone
 				__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
 					'p',
 					{ className: opacity },
-					answer
+					answer,
+					yourAnswer,
+					theirAnswer
 				),
 				__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('img', { className: "answerButtonCheck" + " " + opacity, src: checkMark })
 			);
 		});
+
 		var deltaScore = this.props.answerInfo.deltaScore;
 		var background = deltaScore != 0 ? "correctColor" : "incorrectColor";
 		var text = deltaScore != 0 ? "Correct" : "Incorrect";
