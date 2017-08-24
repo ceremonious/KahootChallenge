@@ -14,7 +14,7 @@ MongoClient.connect('mongodb://localhost:27017/KahootChallenge', function(err,da
     if (err) throw err;
     kahoots = database.collection("Kahoots");
 })
-const PORT=80;
+const PORT=8080;
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended: true}));
@@ -58,7 +58,7 @@ app.post('/joiningGame', function(req, res) {
 	 console.log(otherUser);
 
 	 getQuestionCount(kahootID, function(qCount) {
-		 var newGame = {kahootID: kahootID, currentQ: 1, totalQ: qCount, waitingPlayer: null};
+		 var newGame = {kahootID: kahootID, currentQ: 1, totalQ: qCount, waitingPlayer: null, createTime: Date.now()};
 		 newGame.players = [new Player(name, user, res), new Player(other.name, otherUser, other.res)];
 		 waitingForJoin.remove(user);
 		 games.set(user, newGame)
@@ -157,6 +157,16 @@ function evaluateAnswer(kahootID, currentQ, answer, time, callback) {
 function generateRandomHash() {
   return crypto.randomBytes(3).toString('hex');
 }
+
+setInterval(function() {
+  var values = games.values();
+  values.forEach(function(game) {
+    //Game deleted after 2 hours
+    if(Date.now() - game.createTime > 7200000) {
+      games.delete(games.search(game));
+    }
+  });
+}, 1800000);
 
 app.listen(PORT, function(){
     console.log('Server listening');
