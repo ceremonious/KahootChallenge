@@ -47,7 +47,7 @@
   perspective-origin: 127.5px 45px;
   transform-origin: 127.5px 45px;
   caret-color: rgb(51, 51, 51);
-  background: rgba(0, 0, 0, 0) url("https://kahoot.it/shared/theme/kahoot/img/icn_kahoot_logo.svg") no-repeat scroll 50% 50% / contain padding-box border-box;
+  background: rgba(0, 0, 0, 0) url("kahootLogo.svg") no-repeat scroll 50% 50% / contain padding-box border-box;
   border: 0px none rgb(51, 51, 51);
   font: normal normal normal normal 14px / 20px Montserrat, "helvetica neue", helvetica, arial, sans-serif;
   outline: rgb(51, 51, 51) none 0px;
