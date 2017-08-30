@@ -207,7 +207,7 @@ class Question extends React.Component {
 					<span><span className="hideForSmall">Question </span>{this.props.questionInfo.currentQ} of {this.props.questionInfo.totalQ}</span>
 				</div>
 				<div className="questionTimer"><div id="questionTimerPurple"></div></div>
-				<div className="questionText">{this.props.questionInfo.question}</div>
+				<div className="questionText" dangerouslySetInnerHTML={{__html: this.props.questionInfo.question}}></div>
 				<div className="questionFooter">Win up to 1,000 points!</div>
 			</div>
 		);
@@ -268,7 +268,7 @@ class Answers extends React.Component {
 			<div>
 				<div className="leaderBoardHeader questionHeader">
 					<div className="answerTimerSmall">{this.state.secondsLeft}</div>
-					<div className="questionHeaderText"><span>{this.props.questionInfo.question}</span></div>
+					<div className="questionHeaderText" dangerouslySetInnerHTML={{__html: this.props.questionInfo.question}}></div>
 				</div>
 				<div className={"answerMiddle " + hideImage}>
 					<div className="answerTimer hideForSmall">{this.state.secondsLeft}</div>
@@ -332,8 +332,7 @@ class AnswerResult extends React.Component {
 		var resultText = deltaScore != 0 ? "+ "+deltaScore : "Sooooo close.";
 		return (
 			<div className={background}>
-				<div className="leaderBoardHeader questionHeader">
-					<span>{this.props.questionInfo.question}</span>
+				<div className="leaderBoardHeader questionHeader" dangerouslySetInnerHTML={{__html: this.props.questionInfo.question}}>
 				</div>
 				<div className="leaderBoardButtonContainer answerResultButton"><button type="button" onClick={() => this.props.moveToLeaderBoard()}>Next</button></div>
 				<div className="resultMiddle">

@@ -9784,7 +9784,7 @@ class GameContainer extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Compon
 			xhttp.send("name=" + name + "&kahootID=" + info[2] + "&otherUser=" + info[3]);
 			component.setState({ state: "waitingForLoad", name: name });
 		}
-		component.setTimeout(xhttp);
+		component.setTimeout(xhttp, 7200000);
 		xhttp.onreadystatechange = function () {
 			if (xhttp.readyState == 4 && xhttp.status == 200) {
 				var response = JSON.parse(xhttp.responseText);
@@ -9803,7 +9803,7 @@ class GameContainer extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Compon
 		xhttp.open("POST", "/nextQuestion", true);
 		xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 		xhttp.send();
-		component.setTimeout(xhttp);
+		component.setTimeout(xhttp, 900000);
 		xhttp.onreadystatechange = function () {
 			if (xhttp.readyState == 4 && xhttp.status == 200) {
 				var response = JSON.parse(xhttp.responseText);
@@ -9826,7 +9826,7 @@ class GameContainer extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Compon
 		xhttp.open("POST", "/answerQuestion", true);
 		xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 		xhttp.send("answer=" + answer + "&time=" + component.timeDiff);
-		component.setTimeout(xhttp);
+		component.setTimeout(xhttp, 900000);
 		xhttp.onreadystatechange = function () {
 			if (xhttp.readyState == 4 && xhttp.status == 200) {
 				var response = JSON.parse(xhttp.responseText);
@@ -9838,8 +9838,8 @@ class GameContainer extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Compon
 	moveToLeaderBoard() {
 		this.setState({ state: "leaderBoard" });
 	}
-	setTimeout(xhttp) {
-		xhttp.timeout = 30000;
+	setTimeout(xhttp, amount) {
+		xhttp.timeout = amount;
 		xhttp.ontimeout = () => this.setState({ state: "timeout" });
 	}
 
@@ -10068,11 +10068,7 @@ class Question extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
 				{ className: 'questionTimer' },
 				__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { id: 'questionTimerPurple' })
 			),
-			__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-				'div',
-				{ className: 'questionText' },
-				this.props.questionInfo.question
-			),
+			__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'questionText', dangerouslySetInnerHTML: { __html: this.props.questionInfo.question } }),
 			__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
 				'div',
 				{ className: 'questionFooter' },
@@ -10147,15 +10143,7 @@ class Answers extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
 					{ className: 'answerTimerSmall' },
 					this.state.secondsLeft
 				),
-				__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-					'div',
-					{ className: 'questionHeaderText' },
-					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-						'span',
-						null,
-						this.props.questionInfo.question
-					)
-				)
+				__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'questionHeaderText', dangerouslySetInnerHTML: { __html: this.props.questionInfo.question } })
 			),
 			__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
 				'div',
@@ -10244,15 +10232,7 @@ class AnswerResult extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Compone
 		return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
 			'div',
 			{ className: background },
-			__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-				'div',
-				{ className: 'leaderBoardHeader questionHeader' },
-				__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-					'span',
-					null,
-					this.props.questionInfo.question
-				)
-			),
+			__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'leaderBoardHeader questionHeader', dangerouslySetInnerHTML: { __html: this.props.questionInfo.question } }),
 			__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
 				'div',
 				{ className: 'leaderBoardButtonContainer answerResultButton' },
