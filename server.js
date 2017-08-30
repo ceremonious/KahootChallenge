@@ -43,7 +43,7 @@ app.get('/play/:kahootID/:otherUserCookie', function(req, res) {
 app.post('/waitingForJoin', function(req, res) {
 	var user = req.cookies.playerID;
 	var name = req.body.name;
-	waitingForJoin.set(user, {name: name, res: res});
+	waitingForJoin.set(user, {name: name, res: res, createTime: Date.now()});
 });
 
 app.post('/joiningGame', function(req, res) {
@@ -128,7 +128,6 @@ function getQuestion(kahootID, qNum, totalQ, callback) {
 		var answers = qInfo.choices.map((ans) => ans.answer);
 		callback({question: qInfo.question, answerTime: qInfo.time, answers: answers, currentQ: qNum, totalQ: totalQ, image: qInfo.image});
 	});
-	//callback({question: "What is a cheeta", answerTime: 30000, answers: ["Yes", "No", "Maybe", "Undecided"]});
 }
 
 function evaluateAnswer(kahootID, currentQ, answer, time, callback) {
@@ -171,6 +170,15 @@ setInterval(function() {
     }
   });
 }, 1800000);
+setInterval(function() {
+  var values = waitingForJoin.values();
+  values.forEach(function(waitingToJoin) {
+    //waitingToJoin deleted after 2 hours
+    if(Date.now() - waitingToJoin.createTime > 7200000) {
+      waitingForJoin.delete(waitingForJoin.search(waitingToJoin));
+    }
+  });
+}, 1740000);
 
 app.listen(PORT, function(){
     console.log('Server listening');
