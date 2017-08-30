@@ -11,10 +11,10 @@ MongoClient.connect('mongodb://localhost:27017/KahootChallenge', function(err,da
   		for(var i = 0; i < result.length; i++) {
         var cover = result[i].cover ? result[i].cover : "";
         var description = result[i].description;
-        if(description.length > 120) {
-          description = description.substring(0, 120) + "...";
+        if(description.length > 110) {
+          description = description.substring(0, 110).trim() + "...";
         }
-        boxes.push(`<div class="kahootBox1">
+        boxes.push(`<div class="kahootBox1" onclick="location.href='/play/`+ result[i].index +`'">
           <div class="kahootBox2">
             <div class="kahootBox3">
               <div class="kahootPicture" style="background-image: url('`+ cover +`')">

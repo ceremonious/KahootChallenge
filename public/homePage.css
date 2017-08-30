@@ -24,12 +24,12 @@ body {
 .kahootBox1 {
     box-sizing: border-box;
     display: flex;
-    height: 340.328px;
+    height: 291px;
     min-height: auto;
     min-width: auto;
     text-align: left;
     text-size-adjust: 100%;
-    width: 322.5px;
+    width: 276px;
     perspective-origin: 161.25px 170.156px;
     transform-origin: 161.25px 170.156px;
     flex: 1 0 auto;
@@ -45,16 +45,20 @@ body {
     display: inline-block;
     cursor: pointer;
 }
+.kahootBox1:hover {
+  opacity: 0.9;
+}
+
 
 .kahootBox2 {
     box-sizing: border-box;
     display: flex;
-    height: 336.328px;
+    height: 100%;
     min-height: auto;
     min-width: auto;
     text-align: left;
     text-size-adjust: 100%;
-    width: 318.5px;
+    width: 100%;
     perspective-origin: 159.25px 168.156px;
     transform-origin: 159.25px 168.156px;
     flex: 1 0 auto;
@@ -68,12 +72,12 @@ body {
     box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 4px 0px;
     box-sizing: border-box;
     display: flex;
-    height: 336.328px;
+    height: 100%;
     min-height: auto;
     min-width: auto;
     text-align: left;
     text-size-adjust: 100%;
-    width: 318.5px;
+    width: 100%;
     perspective-origin: 159.25px 168.156px;
     transform-origin: 159.25px 168.156px;
     border-radius: 4px 4px 4px 4px;
@@ -101,7 +105,7 @@ body {
     text-decoration: none solid rgb(0, 0, 0);
     text-size-adjust: 100%;
     top: 0px;
-    width: 318.5px;
+    width: 100%;
     column-rule-color: rgb(0, 0, 0);
     perspective-origin: 159.25px 106.156px;
     transform-origin: 159.25px 106.156px;
@@ -121,13 +125,12 @@ body {
     box-sizing: border-box;
     color: rgb(255, 255, 255);
     height: 24px;
-    left: 220.062px;
+    bottom: 5px;
     position: absolute;
-    right: 8px;
     text-align: right;
     text-decoration: none solid rgb(255, 255, 255);
     text-size-adjust: 100%;
-    top: 180.328px;
+    right: 3px;
     width: 95px;
     column-rule-color: rgb(255, 255, 255);
     perspective-origin: 45.2188px 12px;
@@ -159,7 +162,7 @@ body {
     text-decoration: none solid rgb(115, 115, 115);
     text-size-adjust: 100%;
     top: 0px;
-    width: 318.5px;
+    width: 100%;
     column-rule-color: rgb(115, 115, 115);
     justify-content: space-between;
     perspective-origin: 159.25px 62px;
@@ -187,7 +190,7 @@ body {
     text-align: left;
     text-decoration: none solid rgb(115, 115, 115);
     text-size-adjust: 100%;
-    width: 302.5px;
+    width: 100%;
     column-rule-color: rgb(115, 115, 115);
     perspective-origin: 151.25px 24px;
     transform-origin: 151.25px 24px;
@@ -245,6 +248,9 @@ body {
     outline: rgb(0, 0, 0) none 0px;
     overflow: hidden;
 }
+.title2:hover {
+  color: #45A3E5;
+}
 
 .description {
     box-sizing: border-box;
@@ -277,7 +283,7 @@ body {
     text-decoration: none solid rgb(115, 115, 115);
     text-size-adjust: 100%;
     top: 0px;
-    width: 302.5px;
+    width: 100%;
     column-rule-color: rgb(115, 115, 115);
     align-items: center;
     justify-content: space-between;
@@ -315,4 +321,9 @@ body {
     list-style: none outside none;
     outline: rgb(115, 115, 115) none 0px;
     overflow: hidden;
+}
+@media (max-width: 768px) {
+  .kahootBox1 {
+    margin-bottom: 50px;
+  }
 }
