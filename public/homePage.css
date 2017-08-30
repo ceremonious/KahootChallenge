@@ -1,0 +1,318 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #f2f2f2;
+}
+.header {
+  width: 100%;
+  height: 50px;
+  background-color: #45a3e5;
+  line-height: 50px;
+}
+.header > div {
+  height: 40px;
+  width: 255px;
+  background: rgba(0, 0, 0, 0) url("kahootLogo.svg") no-repeat scroll 10% 0% / contain padding-box border-box;
+  float: left;
+  margin-top: 5px;
+}
+#container {
+  text-align: center;
+}
+.kahootBox1 {
+    box-sizing: border-box;
+    display: flex;
+    height: 340.328px;
+    min-height: auto;
+    min-width: auto;
+    text-align: left;
+    text-size-adjust: 100%;
+    width: 322.5px;
+    perspective-origin: 161.25px 170.156px;
+    transform-origin: 161.25px 170.156px;
+    flex: 1 0 auto;
+    flex-flow: column nowrap;
+    font-size: 16px;
+    line-height: 24px;
+    font-family: Montserrat, "Helvetica Neue", helvetica, arial, sans-serif;
+    list-style: none outside none;
+    padding: 0px 2px 4px;
+    margin-top: 10px;
+    margin-left: 5px;
+    margin-right: 5px;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.kahootBox2 {
+    box-sizing: border-box;
+    display: flex;
+    height: 336.328px;
+    min-height: auto;
+    min-width: auto;
+    text-align: left;
+    text-size-adjust: 100%;
+    width: 318.5px;
+    perspective-origin: 159.25px 168.156px;
+    transform-origin: 159.25px 168.156px;
+    flex: 1 0 auto;
+    font-size: 16px;
+    line-height: 24px;
+    font-family: Montserrat, "Helvetica Neue", helvetica, arial, sans-serif;
+    list-style: none outside none;
+}
+
+.kahootBox3 {
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 4px 0px;
+    box-sizing: border-box;
+    display: flex;
+    height: 336.328px;
+    min-height: auto;
+    min-width: auto;
+    text-align: left;
+    text-size-adjust: 100%;
+    width: 318.5px;
+    perspective-origin: 159.25px 168.156px;
+    transform-origin: 159.25px 168.156px;
+    border-radius: 4px 4px 4px 4px;
+    flex: 1 0 auto;
+    flex-flow: column nowrap;
+    font-size: 16px;
+    line-height: 24px;
+    font-family: Montserrat, "Helvetica Neue", helvetica, arial, sans-serif;
+    list-style: none outside none;
+}
+
+.kahootPicture {
+    background-position: 50% 50%;
+    bottom: 0px;
+    box-sizing: border-box;
+    color: rgb(0, 0, 0);
+    display: block;
+    height: 212.328px;
+    left: 0px;
+    min-height: auto;
+    min-width: auto;
+    position: relative;
+    right: 0px;
+    text-align: left;
+    text-decoration: none solid rgb(0, 0, 0);
+    text-size-adjust: 100%;
+    top: 0px;
+    width: 318.5px;
+    column-rule-color: rgb(0, 0, 0);
+    perspective-origin: 159.25px 106.156px;
+    transform-origin: 159.25px 106.156px;
+    caret-color: rgb(0, 0, 0);
+    background: rgb(204, 204, 204) repeat scroll 50% 50% / cover padding-box border-box;
+    border: 0px none rgb(0, 0, 0);
+    border-radius: 4px 4px 0 0;
+    font-size: 16px;
+    line-height: 24px;
+    font-family: Montserrat, "Helvetica Neue", helvetica, arial, sans-serif;
+    list-style: none outside none;
+    outline: rgb(0, 0, 0) none 0px;
+    position: relative;
+}
+
+.numQuestions {
+    box-sizing: border-box;
+    color: rgb(255, 255, 255);
+    height: 24px;
+    left: 220.062px;
+    position: absolute;
+    right: 8px;
+    text-align: right;
+    text-decoration: none solid rgb(255, 255, 255);
+    text-size-adjust: 100%;
+    top: 180.328px;
+    width: 95px;
+    column-rule-color: rgb(255, 255, 255);
+    perspective-origin: 45.2188px 12px;
+    transform-origin: 45.2188px 12px;
+    caret-color: rgb(255, 255, 255);
+    background: rgba(0, 0, 0, 0.5) none repeat scroll 0% 0% / auto padding-box border-box;
+    border: 0px none rgb(255, 255, 255);
+    border-radius: 3px 3px 3px 3px;
+    font-size: 12px;
+    line-height: 20px;
+    font-family: Montserrat, "Helvetica Neue", helvetica, arial, sans-serif;
+    list-style: none outside none;
+    outline: rgb(255, 255, 255) none 0px;
+    padding: 2px 8px;
+}
+
+.kahootBoxContent {
+    bottom: 0px;
+    box-sizing: border-box;
+    color: rgb(115, 115, 115);
+    display: flex;
+    height: 124px;
+    left: 0px;
+    min-height: auto;
+    min-width: auto;
+    position: relative;
+    right: 0px;
+    text-align: left;
+    text-decoration: none solid rgb(115, 115, 115);
+    text-size-adjust: 100%;
+    top: 0px;
+    width: 318.5px;
+    column-rule-color: rgb(115, 115, 115);
+    justify-content: space-between;
+    perspective-origin: 159.25px 62px;
+    transform-origin: 159.25px 62px;
+    caret-color: rgb(115, 115, 115);
+    background: rgb(255, 255, 255) none repeat scroll 0% 0% / auto padding-box border-box;
+    border: 0px none rgb(115, 115, 115);
+    border-radius: 0 0 4px 4px;
+    flex: 1 0 auto;
+    flex-flow: column nowrap;
+    font-size: 12px;
+    line-height: 20px;
+    font-family: Montserrat, "Helvetica Neue", helvetica, arial, sans-serif;
+    list-style: none outside none;
+    outline: rgb(115, 115, 115) none 0px;
+    padding: 8px 8px 16px;
+}
+
+.kahootInfo {
+    box-sizing: border-box;
+    color: rgb(115, 115, 115);
+    height: 48px;
+    min-height: auto;
+    min-width: auto;
+    text-align: left;
+    text-decoration: none solid rgb(115, 115, 115);
+    text-size-adjust: 100%;
+    width: 302.5px;
+    column-rule-color: rgb(115, 115, 115);
+    perspective-origin: 151.25px 24px;
+    transform-origin: 151.25px 24px;
+    caret-color: rgb(115, 115, 115);
+    border: 0px none rgb(115, 115, 115);
+    font-size: 12px;
+    line-height: 20px;
+    font-family: Montserrat, "Helvetica Neue", helvetica, arial, sans-serif;
+    list-style: none outside none;
+    margin: 0px 0px 8px;
+    outline: rgb(115, 115, 115) none 0px;
+}
+
+.title1 {
+    box-sizing: border-box;
+    display: -webkit-box;
+    height: 24px;
+    max-height: 48px;
+    text-align: left;
+    text-size-adjust: 100%;
+    perspective-origin: 151.25px 12px;
+    transform-origin: 151.25px 12px;
+    font-size: 12px;
+    line-height: 20px;
+    font-family: Montserrat, "Helvetica Neue", helvetica, arial, sans-serif;
+    list-style: none outside none;
+    margin: 0px 0px 4px;
+    overflow: hidden;
+}
+
+.title2 {
+    bottom: 0px;
+    box-sizing: border-box;
+    color: rgb(0, 0, 0);
+    display: -webkit-box;
+    height: 24px;
+    left: 0px;
+    max-height: 48px;
+    position: relative;
+    right: 0px;
+    text-align: left;
+    text-decoration: none solid rgb(0, 0, 0);
+    text-size-adjust: 100%;
+    top: 0px;
+    z-index: 10;
+    column-rule-color: rgb(0, 0, 0);
+    perspective-origin: 39.9688px 12px;
+    transform-origin: 39.9688px 12px;
+    caret-color: rgb(0, 0, 0);
+    border: 0px none rgb(0, 0, 0);
+    font-size: 16px;
+    line-height: 24px;
+    font-family: Montserrat, "Helvetica Neue", helvetica, arial, sans-serif;
+    list-style: none outside none;
+    outline: rgb(0, 0, 0) none 0px;
+    overflow: hidden;
+}
+
+.description {
+    box-sizing: border-box;
+    color: rgb(115, 115, 115);
+    text-align: left;
+    text-decoration: none solid rgb(115, 115, 115);
+    text-size-adjust: 100%;
+    column-rule-color: rgb(115, 115, 115);
+    caret-color: rgb(115, 115, 115);
+    border: 0px none rgb(115, 115, 115);
+    font-family: Montserrat, "Helvetica Neue", helvetica, arial, sans-serif;
+    font-size: 12px;
+    line-height: 14px;
+    list-style: none outside none;
+    outline: rgb(115, 115, 115) none 0px;
+}
+
+.footer {
+    bottom: 0px;
+    box-sizing: border-box;
+    color: rgb(115, 115, 115);
+    display: flex;
+    height: 20px;
+    left: 0px;
+    min-height: auto;
+    min-width: auto;
+    position: relative;
+    right: 0px;
+    text-align: left;
+    text-decoration: none solid rgb(115, 115, 115);
+    text-size-adjust: 100%;
+    top: 0px;
+    width: 302.5px;
+    column-rule-color: rgb(115, 115, 115);
+    align-items: center;
+    justify-content: space-between;
+    perspective-origin: 151.25px 10px;
+    transform-origin: 151.25px 10px;
+    caret-color: rgb(115, 115, 115);
+    border: 0px none rgb(115, 115, 115);
+    font-size: 12px;
+    line-height: 20px;
+    font-family: Montserrat, "Helvetica Neue", helvetica, arial, sans-serif;
+    list-style: none outside none;
+    outline: rgb(115, 115, 115) none 0px;
+}
+
+.author {
+    box-sizing: border-box;
+    color: rgb(115, 115, 115);
+    display: -webkit-box;
+    height: 20px;
+    max-height: 40px;
+    min-height: auto;
+    min-width: auto;
+    text-align: left;
+    text-decoration: none solid rgb(115, 115, 115);
+    text-size-adjust: 100%;
+    column-rule-color: rgb(115, 115, 115);
+    align-self: center;
+    perspective-origin: 21.8594px 10px;
+    transform-origin: 21.8594px 10px;
+    caret-color: rgb(115, 115, 115);
+    border: 0px none rgb(115, 115, 115);
+    font-size: 12px;
+    line-height: 20px;
+    font-family: Montserrat, "Helvetica Neue", helvetica, arial, sans-serif;
+    list-style: none outside none;
+    outline: rgb(115, 115, 115) none 0px;
+    overflow: hidden;
+}
