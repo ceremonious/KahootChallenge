@@ -24,6 +24,7 @@
     "path": "^0.12.7",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
+    "react-infinite-scroller": "^1.0.15",
     "webpack": "^3.4.1"
   },
   "devDependencies": {}

@@ -32,8 +32,8 @@ MongoClient.connect('mongodb://localhost:27017/KahootChallenge', function(err,da
             </div>
           </div>
         </div>`);
-      }
-      fs.writeFile('homePage.txt', boxes.join(''));
+    }
+    fs.writeFile('homePage.txt', boxes.join(''));
   	});
 })
 

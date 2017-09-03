@@ -9,10 +9,14 @@ var Player = require('./player.js');
 var MongoClient = require('mongodb').MongoClient;
 var app = express();
 var kahoots = null;
+var KAHOOT_COUNT = 0;
 
 MongoClient.connect('mongodb://localhost:27017/KahootChallenge', function(err,database) {
     if (err) throw err;
     kahoots = database.collection("Kahoots");
+    kahoots.count({}, function(err, count) {
+      KAHOOT_COUNT = count;
+    });
 })
 const PORT=8080;
 app.use(express.static(path.join(__dirname, 'public')));
@@ -38,6 +42,20 @@ app.get('/play/:kahootID/:otherUserCookie', function(req, res) {
     res.cookie("playerID", user);
     res.sendFile('game.html', {root : __dirname});
   }
+});
+
+app.post('/getKahoots', function(req, res) {
+  var skip = (req.body.page - 1) * 30;
+  kahoots.find().sort({index: 1}).skip(skip).limit(30).toArray(function(err, result) {
+    if (err) throw err;
+    var kahoots = [];
+    for (var i = 0; i < result.length; i++) {
+      kahoots.push({cover: result[i].cover, username: result[i].creator_username,
+        title: result[i].title, description: result[i].description,
+        numQuestions: result[i].questions.length, index: result[i].index});
+    }
+    res.send(JSON.stringify({kahoots: kahoots, hasMore: skip < KAHOOT_COUNT}));
+  });
 });
 
 app.post('/waitingForJoin', function(req, res) {
