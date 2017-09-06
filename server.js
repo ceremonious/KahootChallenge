@@ -58,6 +58,21 @@ app.post('/getKahoots', function(req, res) {
   });
 });
 
+app.post('/searchKahoots', function(req, res) {
+  var val = req.body.searchVal;
+  var regex = new RegExp(val, "i");
+  kahoots.find({$or: [{title: regex}, {description: regex}]}).sort({index: 1}).toArray(function(err, result) {
+    if (err) throw err;
+    var kahoots = [];
+    for (var i = 0; i < result.length; i++) {
+      kahoots.push({cover: result[i].cover, username: result[i].creator_username,
+        title: result[i].title, description: result[i].description,
+        numQuestions: result[i].questions.length, index: result[i].index});
+    }
+    res.send(JSON.stringify(kahoots));
+  });
+});
+
 app.post('/waitingForJoin', function(req, res) {
 	var user = req.cookies.playerID;
 	var name = req.body.name;

@@ -5,7 +5,7 @@ import InfiniteScroll from 'react-infinite-scroller';
 class GameCardContainer extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {kahoots: [], hasMoreItems: true};
+    this.state = {kahoots: [], hasMoreItems: true, searchKahoots: null, loading: false};
   }
 
   loadItems(page) {
@@ -23,9 +23,44 @@ class GameCardContainer extends React.Component {
 		};
   }
 
+  search() {
+    var component = this;
+    var val = document.getElementById("searchBar").value;
+    if(val) {
+      var xhttp = new XMLHttpRequest();
+      xhttp.open("POST", "/searchKahoots", true);
+      xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+      xhttp.send("searchVal="+val);
+      component.setState({loading: true});
+      xhttp.onreadystatechange = function() {
+  		    if(xhttp.readyState == 4 && xhttp.status == 200) {
+  					var response = JSON.parse(xhttp.responseText);
+            component.setState({searchKahoots: response, loading: false});
+  				}
+  		};
+    }
+    else {
+      component.setState({searchKahoots: null});
+    }
+  }
+
   render() {
     const loader = <div>Loading...</div>;
-    var kahootCards = this.state.kahoots.map((info) => {
+    if(this.state.loading) {
+      return (
+        <div>
+          <div className="header">
+            <div className="kahootLogo"></div>
+            <div className="searchBox">
+              <input id="searchBar" onKeyUp={() => this.search()} type="text" name="search" placeholder="Search.." />
+            </div>
+          </div>
+          {loader}
+        </div>
+      );
+    }
+    var kahoots = this.state.searchKahoots == null ? this.state.kahoots : this.state.searchKahoots;
+    var kahootCards = kahoots.map((info) => {
       return (
       <GameCard key={info.index} cover={info.cover}
         index={info.index} numQuestions={info.numQuestions} title={info.title}
@@ -33,13 +68,21 @@ class GameCardContainer extends React.Component {
       </GameCard>)});
 
     return (
-      <InfiniteScroll
-          pageStart={0}
-          loadMore={this.loadItems.bind(this)}
-          hasMore={this.state.hasMoreItems}
-          loader={loader}>
-          {kahootCards}
-      </InfiniteScroll>
+      <div>
+        <div className="header">
+          <div className="kahootLogo"></div>
+          <div className="searchBox">
+            <input id="searchBar" onKeyUp={() => this.search()} type="text" name="search" placeholder="Search.." />
+          </div>
+        </div>
+        <InfiniteScroll
+            pageStart={0}
+            loadMore={this.loadItems.bind(this)}
+            hasMore={this.state.hasMoreItems}
+            loader={loader}>
+            {kahootCards}
+        </InfiniteScroll>
+      </div>
     );
   }
 }

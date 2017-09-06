@@ -11,12 +11,20 @@ body {
   background-color: #45a3e5;
   line-height: 50px;
 }
-.header > div {
+.kahootLogo {
   height: 40px;
   width: 255px;
   background: rgba(0, 0, 0, 0) url("kahootLogo.svg") no-repeat scroll 10% 0% / contain padding-box border-box;
   float: left;
   margin-top: 5px;
+}
+.searchBox {
+  float: right;
+  margin-right: 20px;
+}
+.searchBox > input {
+  height: 20px;
+  font-family: Montserrat, "Helvetica Neue", helvetica, arial, sans-serif;
 }
 #container {
   text-align: center;
