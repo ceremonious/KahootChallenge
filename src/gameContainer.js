@@ -176,6 +176,7 @@ class LeaderBoard extends React.Component {
 	render() {
 		var leaderBoard = this.props.leaderBoard;
 		var nextHidden = this.props.gameOver ? " hidden" : "";
+		var playAgainHidden = this.props.gameOver ? "" : " hidden";
 		var winnerText = "";
 		if(this.props.gameOver) {
 			if(leaderBoard[0].score == leaderBoard[1].score)
@@ -194,6 +195,7 @@ class LeaderBoard extends React.Component {
 						<tr><td className="nameLeaderBoard">{leaderBoard[1].name}</td><td>{leaderBoard[1].score}</td></tr>
 					</tbody>
 				</table>
+				<button className={"playAgainButton" + playAgainHidden} type="button" href="./">Play Another</button>
 			</div>
 		);
 	}

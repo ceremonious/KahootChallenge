@@ -68,7 +68,7 @@ class GameCardContainer extends React.Component {
       </GameCard>)});
 
     return (
-      <div>
+      <div className="everythingContainer">
         <div className="header">
           <div className="kahootLogo"></div>
           <div className="searchBox">
