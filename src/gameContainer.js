@@ -195,7 +195,7 @@ class LeaderBoard extends React.Component {
 						<tr><td className="nameLeaderBoard">{leaderBoard[1].name}</td><td>{leaderBoard[1].score}</td></tr>
 					</tbody>
 				</table>
-				<button className={"playAgainButton" + playAgainHidden} type="button" href="./">Play Another</button>
+				<button className={"playAgainButton" + playAgainHidden} type="button" onClick={() => window.location.href="/index.html"}>Play Another</button>
 			</div>
 		);
 	}

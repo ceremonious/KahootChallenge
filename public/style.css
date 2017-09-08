@@ -190,10 +190,10 @@ a {
   outline: rgb(255, 255, 255) none 0px;
   padding: 15px 20px;
 }
-.leaderBoardButtonContainer > button:hover {
+.leaderBoardButtonContainer > button:hover, .playAgainButton:hover {
   background-color: #3B8BC3;
 }
-.leaderBoardButtonContainer > button:active {
+.leaderBoardButtonContainer > button:active, .playAgainButton:active {
   box-shadow: none;
 }
 
@@ -264,6 +264,7 @@ a {
 .orange {
   background-color: #F5A23D;
   height: 100vh;
+  text-align: center;
 }
 .questionTimer {
   width: 100%;
@@ -542,19 +543,13 @@ a {
   border: 2px solid white;
 }
 .playAgainButton {
-  bottom: 0px;
   box-shadow: rgba(0, 0, 0, 0.15) 0px -3px 0px 0px inset;
   color: rgb(255, 255, 255);
   cursor: pointer;
   height: 50px;
-  left: 0px;
   min-height: 0px;
-  position: relative;
-  right: 0px;
   text-decoration: none solid rgb(255, 255, 255);
-  top: 0px;
-  vertical-align: top;
-  width: 150px;
+  width: 250px;
   column-rule-color: rgb(255, 255, 255);
   perspective-origin: 48.7812px 25px;
   transform-origin: 48.7812px 25px;
@@ -568,7 +563,8 @@ a {
   line-height: 20px;
   outline: rgb(255, 255, 255) none 0px;
   padding: 15px 20px;
-  margin: 0 auto;
+  position: relative;
+  bottom: 150px;
 }
 
 
