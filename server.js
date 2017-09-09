@@ -76,13 +76,13 @@ app.post('/searchKahoots', function(req, res) {
 app.post('/waitingForJoin', function(req, res) {
 	var user = req.cookies.playerID;
 	var name = req.body.name;
-	waitingForJoin.set(user, {name: name, res: res, createTime: Date.now()});
+  var kahootID = parseInt(req.body.kahootID);
+	waitingForJoin.set(user, {name: name, res: res, kahootID: kahootID, createTime: Date.now()});
 });
 
 app.post('/joiningGame', function(req, res) {
 	 var user = req.cookies.playerID;
 	 var otherUser = req.body.otherUser;
-	 var kahootID = parseInt(req.body.kahootID);
 	 var name = req.body.name;
 	 var other = waitingForJoin.get(otherUser);
 	 if(!other) {
@@ -90,6 +90,7 @@ app.post('/joiningGame', function(req, res) {
 		 res.send("Game not found");
 		 return;
 	 }
+   var kahootID = other.kahootID;
 	 console.log(user);
 	 console.log(waitingForJoin);
 	 console.log(otherUser);

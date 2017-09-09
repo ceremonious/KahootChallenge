@@ -24,13 +24,13 @@ class GameContainer extends React.Component {
 		if(isFirst) {
 		  xhttp.open("POST", "/waitingForJoin", true);
 			xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-			xhttp.send("name="+name);
+			xhttp.send("name="+name+"&kahootID="+info[2]);
 			component.setState({state: "showingLink", name: name});
 		}
 		else {
 			xhttp.open("POST", "/joiningGame", true);
 			xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-			xhttp.send("name="+name+"&kahootID="+info[2]+"&otherUser="+info[3]);
+			xhttp.send("name="+name+"&otherUser="+info[3]);
 			component.setState({state: "waitingForLoad", name: name});
 		}
 		component.setTimeout(xhttp, 7200000);
@@ -259,7 +259,7 @@ class Answers extends React.Component {
 			return (
 				<div className={"answerButton " + colors[index]} key={index} onClick={() => {clearInterval(component.timer); component.props.answerClicked(index);}}>
 					<img className="answerShape" src={shapes[index]} />
-					<p>{answer}</p>
+					<p dangerouslySetInnerHTML={{__html: answer}}></p>
 				</div>
 			);
 		});
@@ -321,7 +321,7 @@ class AnswerResult extends React.Component {
 			return (
 				<div className={"answerButton " + colors[index] + " " + opacity} key={index}>
 						<img className={"answerShape" + " " + opacity} src={shapes[index]} />
-						<p className={opacity}>{answer}{yourAnswer}{theirAnswer}</p>
+						<p className={opacity} dangerouslySetInnerHTML={{__html: answer+yourAnswer+theirAnswer}}></p>
 						<img className={"answerButtonCheck" + " " + opacity} src={checkMark} />
 				</div>
 			);

@@ -698,6 +698,7 @@ body {
   .answerContainer {
     margin-top: 20px;
     position: relative;
+    height: 200px;
   }
   .answerTimerSmall {
     display: inline-block;
