@@ -45,10 +45,10 @@ class GameCardContainer extends React.Component {
   }
 
   render() {
-    const loader = <div>Loading...</div>;
+    const loader = <div><img className="loading" src="/loading.gif" /></div>;
     if(this.state.loading) {
       return (
-        <div>
+        <div className="everythingContainer">
           <div className="header">
             <div className="kahootLogo"></div>
             <div className="searchBox">
