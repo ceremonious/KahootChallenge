@@ -326,12 +326,12 @@ a {
   top: 35%;
   left: 5%;
 }
-.questionPicture > img {
-  position: absolute;
+.questionPicture {
+  text-align: center;
   height: 100%;
-  top: 5%;
-  width: 50%;
-  left: 25%;
+}
+.questionPicture > img {
+  max-height: 100%;
 }
 .answerContainer {
   position: absolute;

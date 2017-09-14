@@ -18,7 +18,7 @@ class GameContainer extends React.Component {
 	}
 
 	nameSubmitted(name) {
-		if(!name) {
+		if(name == "") {
 			return;
 		}
 		var component = this;
