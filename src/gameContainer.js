@@ -5,7 +5,8 @@ class GameContainer extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {state: "name", name: null, score: 0};
-		this.questionInfo = {image: null, question: "null", answerTime: null, answers: null, currentQ: 0, totalQ: null};
+		this.questionInfo = {image: null, question: null, answerTime: null, answers: null, currentQ: 0, totalQ: null};
+		//this.questionInfo = {image: null, question: "test question", answerTime: 1000000, answers: ["a", "B", "c", "Daldjsfalsdjfalsdjfalksdjfalksdjflaksdjflasjdflkasjdflkasjfla"], currentQ: 1, totalQ: 3};
 		this.lastAnswer = null;
 		this.startTime = null;
 		this.timeDiff = null;
@@ -17,6 +18,9 @@ class GameContainer extends React.Component {
 	}
 
 	nameSubmitted(name) {
+		if(!name) {
+			return;
+		}
 		var component = this;
 		var info = window.location.pathname.split('/');
 		var isFirst = info.length == 3;
@@ -316,13 +320,17 @@ class AnswerResult extends React.Component {
 			var shapes = ["/triangle.png", "/diamond.png", "/circle.png", "/square.png"];
 			var opacity = component.props.answerInfo.correctAnswers.includes(index) ? "" : "faded";
 			var checkMark = component.props.answerInfo.correctAnswers.includes(index) ? "/correct.png" : "";
-			var yourAnswer = component.props.lastAnswer == index ? " Your answer." : "";
-			var theirAnswer = component.props.answerInfo.otherAnswer == index ? " Their answer." : "";
+			var yourAnswer = component.props.lastAnswer == index ? (<div className="circleLabel yourAnswer"><span>Your Answer</span></div>) : "";
+			var theirAnswer = component.props.answerInfo.otherAnswer == index ? (<div className="circleLabel theirAnswer"><span>Their Answer</span></div>) : "";
 			return (
 				<div className={"answerButton " + colors[index] + " " + opacity} key={index}>
 						<img className={"answerShape" + " " + opacity} src={shapes[index]} />
-						<p className={opacity} dangerouslySetInnerHTML={{__html: answer+yourAnswer+theirAnswer}}></p>
-						<img className={"answerButtonCheck" + " " + opacity} src={checkMark} />
+						<p className={opacity} dangerouslySetInnerHTML={{__html: answer}}></p>
+						<div className="checkContainer">
+							{yourAnswer}
+							{theirAnswer}
+							<img className={opacity} src={checkMark} />
+						</div>
 				</div>
 			);
 		});

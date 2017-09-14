@@ -421,12 +421,47 @@ a {
   left: 10%;
   height: 60%;
 }
-.answerButtonCheck {
+.checkContainer {
   position: absolute;
-  transform: translate(-50%,-50%);
-  right: 0;
-  top: 50%;
+  right: 5px;
+  text-align: right;
+  top: 20%;
+  height: 60%;
+  z-index: 1;
 }
+.checkContainer > img {
+  height: 100%;
+  float: right;
+}
+.checkContainer * {
+  margin-right: 5px;
+  display: inline-block;
+}
+.circleLabel {
+  color: rgb(255, 255, 255);
+  text-align: center;
+  border: 1px solid black;
+  border-radius: 100% 100% 100% 100%;
+  font-family: Montserrat, "Helvetica Neue", helvetica, arial, sans-serif;
+  font-size: 16px;
+  height: 75px;
+  width: 75px;
+  line-height: 65px;
+}
+.circleLabel > span {
+  display: inline-block;
+  vertical-align: middle;
+  line-height: normal;
+  text-align: center;
+  width: 100%;
+}
+.yourAnswer {
+  background: #4B0082 none repeat scroll 0% 0% / auto padding-box border-box;
+}
+.theirAnswer {
+  background: #B57EDC none repeat scroll 0% 0% / auto padding-box border-box;
+}
+
 .waitingText {
   margin-top: 10%;
 }
@@ -663,8 +698,11 @@ body {
   .answerButton > p {
     font-size: 1em;
   }
-  .answerButtonCheck {
-    width: 10%;
+  .circleLabel {
+    height: 60px;
+    width: 60px;
+    line-height: 50px;
+    font-size: 13px;
   }
   .questionText {
     top: 25%;
