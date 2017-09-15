@@ -12,7 +12,6 @@ var kahoots = null;
 var KAHOOT_COUNT = 0;
 
 MongoClient.connect('mongodb://localhost:27017/KahootChallenge', function(err,database) {
-    if (err) throw err;
     kahoots = database.collection("Kahoots");
     kahoots.count({}, function(err, count) {
       KAHOOT_COUNT = count;
@@ -47,7 +46,6 @@ app.get('/play/:kahootID/:otherUserCookie', function(req, res) {
 app.post('/getKahoots', function(req, res) {
   var skip = (req.body.page - 1) * 30;
   kahoots.find().sort({index: 1}).skip(skip).limit(30).toArray(function(err, result) {
-    if (err) throw err;
     var kahoots = [];
     for (var i = 0; i < result.length; i++) {
       kahoots.push({cover: result[i].cover, username: result[i].creator_username,
@@ -62,7 +60,6 @@ app.post('/searchKahoots', function(req, res) {
   var val = req.body.searchVal;
   var regex = new RegExp(val, "i");
   kahoots.find({$or: [{title: regex}, {description: regex}]}).sort({index: 1}).toArray(function(err, result) {
-    if (err) throw err;
     var kahoots = [];
     for (var i = 0; i < result.length; i++) {
       kahoots.push({cover: result[i].cover, username: result[i].creator_username,
@@ -148,7 +145,6 @@ function sendLeaderBoard(game, correctAnswers, player, otherAnswer) {
 function getQuestionCount(kahootID, callback) {
 	var query = {index: kahootID};
 	kahoots.find(query).toArray(function (err, result) {
-		if (err) throw err;
 		console.log(kahootID);
 		callback(result[0].questions.length);
 	});
@@ -157,7 +153,6 @@ function getQuestionCount(kahootID, callback) {
 function getQuestion(kahootID, qNum, totalQ, callback) {
 	var query = {index: kahootID};
 	kahoots.find(query).toArray(function (err, result) {
-		if (err) throw err;
 		var qInfo = result[0].questions[qNum - 1];
 		var answers = qInfo.choices.map((ans) => ans.answer);
 		callback({question: qInfo.question, answerTime: qInfo.time, answers: answers, currentQ: qNum, totalQ: totalQ, image: qInfo.image});
@@ -167,7 +162,6 @@ function getQuestion(kahootID, qNum, totalQ, callback) {
 function evaluateAnswer(kahootID, currentQ, answer, time, callback) {
 	var query = {index: kahootID};
 	kahoots.find(query).toArray(function (err, result) {
-		if (err) throw err;
 		var correctAnswers = [];
 		var choices = result[0].questions[currentQ - 1].choices;
 		for(var i = 0; i < choices.length; i++)
