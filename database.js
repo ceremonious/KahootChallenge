@@ -2,11 +2,10 @@ var MongoClient = require('mongodb').MongoClient;
 var fs = require('fs');
 var url = "mongodb://localhost:27017/KahootChallenge";
 
-var obj = JSON.parse(fs.readFileSync('testkahoot.json', 'utf8'));
-/*for(var i = 0; i < obj.entities.length; i++) {
-  insertKahoot(obj.entities[i], i + 2);
-}*/
-insertKahoot(obj, 101);
+var obj = JSON.parse(fs.readFileSync('popularKahoots100.json', 'utf8'));
+for(var i = 0; i < obj.entities.length; i++) {
+  insertKahoot(obj.entities[i], i);
+}
 
 function insertKahoot(kahoot, index) {
   delete kahoot.metadata;
