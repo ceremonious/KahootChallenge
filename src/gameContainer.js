@@ -4,9 +4,19 @@ import ReactDOM from 'react-dom';
 class GameContainer extends React.Component {
 	constructor(props) {
 		super(props);
+		//The inital state is the name screen where they enter their username
+		/*Possible states:
+		name - User choosing a name
+		showingLink - Providing the user with the shareable link
+		invalidGame - Screen when games times out
+		leaderBoard - Shows leaderboard with names + score
+		showingQuestion - Showing just the question
+		showingAnswers - Showing the question/picture/answer choices
+		answerLoading - Waiting for the other user to answer
+		answerResult - Showing the results of the question
+		*/
 		this.state = {state: "name", name: null, score: 0};
 		this.questionInfo = {image: null, question: null, answerTime: null, answers: null, currentQ: 0, totalQ: null};
-		//this.questionInfo = {image: null, question: "test question", answerTime: 1000000, answers: ["a", "B", "c", "Daldjsfalsdjfalsdjfalksdjfalksdjflaksdjflasjdflkasjdflkasjfla"], currentQ: 1, totalQ: 3};
 		this.lastAnswer = null;
 		this.startTime = null;
 		this.timeDiff = null;
@@ -25,12 +35,14 @@ class GameContainer extends React.Component {
 		var info = window.location.pathname.split('/');
 		var isFirst = info.length == 3;
 		var xhttp = new XMLHttpRequest();
+		//If the user is creating a link
 		if(isFirst) {
 		  xhttp.open("POST", "/waitingForJoin", true);
 			xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 			xhttp.send("name="+name+"&kahootID="+info[2]);
 			component.setState({state: "showingLink", name: name});
 		}
+		//If the user is joining a link given to them
 		else {
 			xhttp.open("POST", "/joiningGame", true);
 			xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -38,6 +50,7 @@ class GameContainer extends React.Component {
 			component.setState({state: "waitingForLoad", name: name});
 		}
 		component.setTimeout(xhttp, 7200000);
+		//Once both players have joined the game, the screen switches to the initial leaderBoard
 		xhttp.onreadystatechange = function() {
 				if(xhttp.readyState == 4 && xhttp.status == 200) {
 					var response = JSON.parse(xhttp.responseText);
@@ -57,6 +70,7 @@ class GameContainer extends React.Component {
 		xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 		xhttp.send();
 		component.setTimeout(xhttp, 900000);
+		//First shows the question and then allows users to answer after 4 seconds
     xhttp.onreadystatechange = function() {
       	if(xhttp.readyState == 4 && xhttp.status == 200) {
 					var response = JSON.parse(xhttp.responseText);
@@ -78,6 +92,7 @@ class GameContainer extends React.Component {
 		var xhttp = new XMLHttpRequest();
 	  xhttp.open("POST", "/answerQuestion", true);
 		xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		//Send the server the answer chosen and the time it took to answer
 		xhttp.send("answer="+answer+"&time="+component.timeDiff);
 		component.setTimeout(xhttp, 900000);
     xhttp.onreadystatechange = function() {
@@ -207,6 +222,7 @@ class LeaderBoard extends React.Component {
 
 class Question extends React.Component {
 	render() {
+		//Dangerously setting HTML preserves bolding/italics in question
 		return (
 			<div>
 				<div className="leaderBoardHeader">

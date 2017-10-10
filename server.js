@@ -23,19 +23,24 @@ app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
+//waitingForJoin tracks people who have a link and are waiting for it to be clicked.
 var waitingForJoin = new HashMap();
+//games stores all active games
 var games = new HashMap();
 
 app.get('/play/:kahootID', function(req, res) {
+  //Give the user an ID and send them the default game page
 	var user = generateRandomHash();
 	res.cookie("playerID", user);
 	res.sendFile('game.html', {root : __dirname});
 });
 
 app.get('/play/:kahootID/:otherUserCookie', function(req, res) {
+  //This happens if smomeone follows their own link
   if(req.cookies.playerID == req.params.otherUserCookie) {
     res.send("Send the link to a friend.");
   }
+  //Give the user an ID and send them the default game page
   else {
     var user = generateRandomHash();
     res.cookie("playerID", user);
@@ -44,6 +49,7 @@ app.get('/play/:kahootID/:otherUserCookie', function(req, res) {
 });
 
 app.post('/getKahoots', function(req, res) {
+  //Gets kahoots to be shown on the home page. Skips kahoots for pagination.
   var skip = (req.body.page - 1) * 30;
   kahoots.find().sort({index: 1}).skip(skip).limit(30).toArray(function(err, result) {
     var kahoots = [];
@@ -57,6 +63,7 @@ app.post('/getKahoots', function(req, res) {
 });
 
 app.post('/searchKahoots', function(req, res) {
+  //Finds all kahoots that have the given value in their title or description
   var val = req.body.searchVal;
   var regex = new RegExp(val, "i");
   kahoots.find({$or: [{title: regex}, {description: regex}]}).sort({index: 1}).toArray(function(err, result) {
@@ -71,6 +78,7 @@ app.post('/searchKahoots', function(req, res) {
 });
 
 app.post('/waitingForJoin', function(req, res) {
+  //Once the user submits a name, their res object is stored. A response is sent when someone clicks the link.
 	var user = req.cookies.playerID;
 	var name = req.body.name;
   var kahootID = parseInt(req.body.kahootID);
@@ -78,29 +86,28 @@ app.post('/waitingForJoin', function(req, res) {
 });
 
 app.post('/joiningGame', function(req, res) {
-	 var user = req.cookies.playerID;
-	 var otherUser = req.body.otherUser;
-	 var name = req.body.name;
-	 var other = waitingForJoin.get(otherUser);
-	 if(!other) {
-		 res.status(400);
-		 res.send("Game not found");
-		 return;
-	 }
-   var kahootID = other.kahootID;
-	 console.log(user);
-	 console.log(waitingForJoin);
-	 console.log(otherUser);
+  //The user comes here when they click on a link given to them.
+  var user = req.cookies.playerID;
+  var otherUser = req.body.otherUser;
+  var name = req.body.name;
+  var other = waitingForJoin.get(otherUser);
+  if(!other) {
+    res.status(400);
+    res.send("Game not found");
+    return;
+  }
+  var kahootID = other.kahootID;
 
-	 getQuestionCount(kahootID, function(qCount) {
-		 var newGame = {kahootID: kahootID, currentQ: 1, totalQ: qCount, waitingPlayer: null, createTime: Date.now()};
-		 newGame.players = [new Player(name, user, res), new Player(other.name, otherUser, other.res)];
-		 waitingForJoin.remove(user);
-		 games.set(user, newGame)
-		 games.set(otherUser, newGame);
-		 sendLeaderBoard(newGame, null, newGame.players[0]);
-		 sendLeaderBoard(newGame, null, newGame.players[1]);
-	 });
+  //Send the initial state of the game to both players
+  getQuestionCount(kahootID, function(qCount) {
+    var newGame = {kahootID: kahootID, currentQ: 1, totalQ: qCount, waitingPlayer: null, createTime: Date.now()};
+    newGame.players = [new Player(name, user, res), new Player(other.name, otherUser, other.res)];
+    waitingForJoin.remove(user);
+    games.set(user, newGame)
+    games.set(otherUser, newGame);
+    sendLeaderBoard(newGame, null, newGame.players[0]);
+    sendLeaderBoard(newGame, null, newGame.players[1]);
+  });
 });
 
 app.post('/nextQuestion', function(req, res) {
@@ -121,6 +128,7 @@ app.post('/answerQuestion', function(req, res) {
 		player.changeScore(deltaScore, answer);
 		player.res = res;
 
+    //If this is the first player to answer, make them wait for the next person.
 		if(game.waitingPlayer == null) {
 			game.waitingPlayer = player;
 		}
@@ -145,7 +153,6 @@ function sendLeaderBoard(game, correctAnswers, player, otherAnswer) {
 function getQuestionCount(kahootID, callback) {
 	var query = {index: kahootID};
 	kahoots.find(query).toArray(function (err, result) {
-		console.log(kahootID);
 		callback(result[0].questions.length);
 	});
 }
@@ -165,7 +172,7 @@ function evaluateAnswer(kahootID, currentQ, answer, time, callback) {
 		var correctAnswers = [];
 		var choices = result[0].questions[currentQ - 1].choices;
 		for(var i = 0; i < choices.length; i++)
-			if(choices[i].correct) correctAnswers.push(i);
+		  if(choices[i].correct) correctAnswers.push(i);
     var correct = false;
     if(answer != null && answer != "null")
       correct = choices[answer].correct;
